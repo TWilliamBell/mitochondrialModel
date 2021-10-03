@@ -115,7 +115,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     ## Proximal Tubule Predictions
     global pc
-    pc.pcPC.k_O2 = pc.pcPC.k_O2*ko2pt
+    pc.pcPC.k_O2 = 1.2e-4*ko2pt
     ## The in vivo case
     ## Increase Potassium-Hydrogen Antiporter activity by 100x from 'new normal'
     ## and see if we get that consistent 1.05 increase in dPsi
@@ -530,7 +530,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     PTpred = (KH, valsS3["JO2"], RCR, valsLR["JO2"], PO)
 
     ## mTAL predictions
-    pc.pcPC.k_O2 = pc.pcPC.k_O2 * ko2mTAL
+    pc.pcPC.k_O2 = 1.2e-4 * ko2mTAL
     pc.params[37] = khmTAL * 4.7580e+06 / 15
     pc.params[39] = 347.4 * hleakmTAL
     pc.params[34] = 0.00675 * antmTAL
