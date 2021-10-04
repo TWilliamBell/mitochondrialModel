@@ -410,8 +410,8 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     rho_m = 3.0545e-6
     convert = 1e9 * rho_m
 
-    #khUp = pd.read_csv("../results/resultsKH100Test.csv").tail(1).to_numpy()[0]
-    #khUp = np.delete(khUp, [0, 1])
+    khUp = pd.read_csv("../results/resultsKH100Test.csv").tail(1).to_numpy()[0]
+    khUp = np.delete(khUp, [0, 1])
 
     reg = pd.read_csv("../results/resultsKHbaseTest.csv").tail(1).to_numpy()[0]
     reg = np.delete(reg, [0, 1])
@@ -513,7 +513,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
 
     ## Extract values of interest
-    #valsdPsi = {"Up" : khUp[1], "Base" : reg[1]}
+    valsdPsi = {"Up" : khUp[1], "Base" : reg[1]}
     valsS2 = {"JO2" : (JO2s2/2.)*convert, "JATP" : JATPs2*convert}
     valsS3 = {"JO2" : (JO2s3/2.)*convert, "JATP" : JATPs3*convert}
     valsLR = {"JO2" : (JO2lr/2.)*convert, "JATP" : JATPlr*convert}
@@ -524,7 +524,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     RCR = valsS3["JO2"]/valsS2["JO2"]
 
     ## Difference between "Nigericin" and baseline for dPsi
-    #KH = valsdPsi["Up"]/valsdPsi["Base"]
+    KH = valsdPsi["Up"]/valsdPsi["Base"]
 
     ## All values used in fitting
     PTpred = (KH, valsS3["JO2"], RCR, valsLR["JO2"], PO)
