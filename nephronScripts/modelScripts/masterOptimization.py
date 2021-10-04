@@ -65,14 +65,14 @@ def s2mTAL(t, y, pW): ## For State 2 Resp.
 
 def s3mTAL(t, y, pW): ## Differential equations, with optional arguments specified
     print(t)
-    return equations.conservationEqs(y, J_AtC = J_AtC,
+    return equations.conservationEqs(y, J_AtC = 0.,
                               ExpType = 2,
                               StateType = StateType,
                               tubule = "mTAL", potassiumW = pW)
 
 def pomTAL(t, y, pW):
     print(t)
-    a = equations.conservationEqs(y, J_AtC = J_AtC,
+    a = equations.conservationEqs(y, J_AtC = 0.,
                               ExpType = 2,
                               StateType = StateType,
                               tubule = "mTAL", potassiumW = pW)
@@ -605,7 +605,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     pc.vitroics = s2newIC
     pc.vitroics[pc.pcIS.iADP_c] = 2.5e-3
 
-    results = sci.solve_ivp(fun = lambda t, y: S3mTAL(t, y, pW = pW),
+    results = sci.solve_ivp(fun = lambda t, y: s3mTAL(t, y, pW = pW),
                             t_span = (0, 20),
                             y0 = pc.vitroics,
                             method = "LSODA",
