@@ -417,8 +417,8 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     reg = np.delete(reg, [0, 1])
 
     ## Data loading and cleaning, based on measureVars.py simulations
-    s2 = pd.read_csv("../results/resultsState2KHTest.csv").tail(1).to_numpy()[0]
-    s2 = np.delete(s2, [0, 1])
+    s2dat = pd.read_csv("../results/resultsState2KHTest.csv").tail(1).to_numpy()[0]
+    s2dat= np.delete(s2dat, [0, 1])
     #s2LR = pd.read_csv("../results/resultsState2LR.csv").tail(1).to_numpy()[0]
     #s2LR = np.delete(s2LR, [0, 1]
 
@@ -427,29 +427,29 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     # print(s2)
     # print("\n")
 
-    s3 = pd.read_csv("../results/resultsState3KHTest.csv")
+    s3dat = pd.read_csv("../results/resultsState3KHTest.csv")
 
     # print("State 3 State Variables:")
     # print(np.delete(s3.tail(1).to_numpy()[0], [0, 1]))
     # print("\n")
 
-    s3 = s3.to_numpy()
+    s3dat = s3dat.to_numpy()
 
-    lr = pd.read_csv("../results/resultsLeakRespKHTest.csv")
+    lrdat = pd.read_csv("../results/resultsLeakRespKHTest.csv")
 
     # print("Leak respiration State Variables:")
     # print(np.delete(lr.tail(1).to_numpy()[0], [0, 1]))
     # print("\n")
 
-    lr = lr.to_numpy()
+    lrdat = lrdat.to_numpy()
 
-    po = pd.read_csv("../results/resultsPOKHTest.csv")
+    podat = pd.read_csv("../results/resultsPOKHTest.csv")
 
     # print("P/O measurement State Variables:")
     # print(np.delete(po.tail(1).to_numpy()[0], [0, 1]))
     # print("\n")
 
-    po = po.to_numpy()
+    podat = podat.to_numpy()
 
     ## Calculate fluxes
     #Js2 = list()
@@ -461,18 +461,18 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     #    s2t = np.delete(s2[i], [0, 1])
     #    Js2.append(fluxes.fluxes(s2t, param = pc.params, ExpType = ExpType))
 
-    for i in range(len(s3)):
-        s3t = np.delete(s3[i], [0, 1])
+    for i in range(len(s3dat)):
+        s3t = np.delete(s3dat[i], [0, 1])
         Js3.append(fluxes.fluxes(s3t, param = pc.params, ExpType = ExpType,
                               w = [1., 1., 1., 1.]))
 
-    for i in range(len(lr)):
-        lrt = np.delete(lr[i], [0, 1])
+    for i in range(len(lrdat)):
+        lrt = np.delete(lrdat[i], [0, 1])
         Jlr.append(fluxes.fluxes(lrt, param = pc.params, ExpType = ExpType,
                               w = [1., 1., 1., 1.]))
 
-    for i in range(len(po)):
-        pot = np.delete(po[i], [0, 1])
+    for i in range(len(podat)):
+        pot = np.delete(podat[i], [0, 1])
         Jpo.append(fluxes.fluxes(pot, param = pc.params, ExpType = ExpType,
                               w = [1., 1., 1., 1.]))
 
@@ -481,7 +481,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     #ind2 = np.argmax(s2JO2)
     #s2ATP = [item[3] for item in Js2]
     #JATPs2 = s2ATP[ind2]
-    Js2 = fluxes.fluxes(s2, param = pc.params, ExpType = ExpType,
+    Js2 = fluxes.fluxes(s2dat, param = pc.params, ExpType = ExpType,
                               w = [1., 1., 1., 0.])
     JO2s2 = Js2[2]
     JATPs2 = Js2[3]
@@ -666,28 +666,28 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     convert = 1e9 * rho_m
 
     ## Data loading and cleaning, based on measureVars.py simulations
-    s2 = pd.read_csv("../results/resultsState2TAL.csv").tail(1).to_numpy()[0]
-    s2 = np.delete(s2, [0, 1])
+    s2dat = pd.read_csv("../results/resultsState2TAL.csv").tail(1).to_numpy()[0]
+    s2dat = np.delete(s2dat, [0, 1])
 
-    s3 = pd.read_csv("../results/resultsState3TAL.csv")
-    s3 = s3.to_numpy()
+    s3dat = pd.read_csv("../results/resultsState3TAL.csv")
+    s3dat = s3dat.to_numpy()
 
-    po = pd.read_csv("../results/resultsPOTAL.csv")
-    po = po.to_numpy()
+    podat = pd.read_csv("../results/resultsPOTAL.csv")
+    podat = podat.to_numpy()
 
     ## Calculate fluxes
     Js3 = list()
     Jpo = list()
 
-    for i in range(len(s3)):
-        s3t = np.delete(s3[i], [0, 1])
+    for i in range(len(s3dat)):
+        s3t = np.delete(s3dat[i], [0, 1])
         Js3.append(fluxes.fluxesmTAL(s3t, param = pc.params, ExpType = ExpType))
 
-    for i in range(len(po)):
-       pot = np.delete(po[i], [0, 1])
+    for i in range(len(podat)):
+       pot = np.delete(podat[i], [0, 1])
        Jpo.append(fluxes.fluxesmTAL(pot, param = pc.params, ExpType = ExpType))
 
-    Js2 = fluxes.fluxesmTAL(s2, param = pc.params, ExpType = ExpType)
+    Js2 = fluxes.fluxesmTAL(s2dat, param = pc.params, ExpType = ExpType)
     JO2s2 = Js2[2]
     JATPs2 = Js2[3]
 
