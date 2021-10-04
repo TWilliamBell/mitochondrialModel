@@ -225,7 +225,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                               rtol = 1e-10)
 
     state = results.y[-1]
-    J1 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
+    #J1 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
 
 
     resultsS2 = np.concatenate((np.array([resultsS2.t]), resultsS2.y)).transpose()
@@ -313,7 +313,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
 
     state = results.y[-1]
-    J2 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
+    #J2 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
 
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
     results = pd.DataFrame(results,
@@ -349,7 +349,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
 
     state = results.y[-1]
-    J3 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
+    #J3 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
 
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
     results = pd.DataFrame(results,
@@ -385,7 +385,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
 
     state = results.y[-1]
-    J4 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
+    #J4 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
 
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
     results = pd.DataFrame(results,
@@ -463,17 +463,17 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     for i in range(len(s3dat)):
         s3t = np.delete(s3dat[i], [0, 1])
-        Js3.append(fluxes.fluxes(s3t, param = pc.params, ExpType = ExpType,
+        Js3.append(fluxes.fluxes(s3t, param = pc.params, ExpType = 2,
                               w = [1., 1., 1., 1.]))
 
     for i in range(len(lrdat)):
         lrt = np.delete(lrdat[i], [0, 1])
-        Jlr.append(fluxes.fluxes(lrt, param = pc.params, ExpType = ExpType,
+        Jlr.append(fluxes.fluxes(lrt, param = pc.params, ExpType = 2,
                               w = [1., 1., 1., 1.]))
 
     for i in range(len(podat)):
         pot = np.delete(podat[i], [0, 1])
-        Jpo.append(fluxes.fluxes(pot, param = pc.params, ExpType = ExpType,
+        Jpo.append(fluxes.fluxes(pot, param = pc.params, ExpType = 2,
                               w = [1., 1., 1., 1.]))
 
     #s2JO2 = [item[2] for item in Js2]
@@ -481,7 +481,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     #ind2 = np.argmax(s2JO2)
     #s2ATP = [item[3] for item in Js2]
     #JATPs2 = s2ATP[ind2]
-    Js2 = fluxes.fluxes(s2dat, param = pc.params, ExpType = ExpType,
+    Js2 = fluxes.fluxes(s2dat, param = pc.params, ExpType = 2,
                               w = [1., 1., 1., 0.])
     JO2s2 = Js2[2]
     JATPs2 = Js2[3]
@@ -681,13 +681,13 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     for i in range(len(s3dat)):
         s3t = np.delete(s3dat[i], [0, 1])
-        Js3.append(fluxes.fluxesmTAL(s3t, param = pc.params, ExpType = ExpType))
+        Js3.append(fluxes.fluxesmTAL(s3t, param = pc.params, ExpType = 2))
 
     for i in range(len(podat)):
        pot = np.delete(podat[i], [0, 1])
-       Jpo.append(fluxes.fluxesmTAL(pot, param = pc.params, ExpType = ExpType))
+       Jpo.append(fluxes.fluxesmTAL(pot, param = pc.params, ExpType = 2))
 
-    Js2 = fluxes.fluxesmTAL(s2dat, param = pc.params, ExpType = ExpType)
+    Js2 = fluxes.fluxesmTAL(s2dat, param = pc.params, ExpType = 2)
     JO2s2 = Js2[2]
     JATPs2 = Js2[3]
 
