@@ -12,14 +12,14 @@ StateType = 1
 
 # PT
 def kh(t, y, pW):
-    print(t)
+    #print(t)
     return equations.conservationEqs(y, J_AtC = 1.256e-3,
                               ExpType = 1,
                               StateType = StateType,
                               w = [1., 1., 1., 1.], potassiumW = pW)
 
 def s2(t, y, pW): ## For State 2 Resp.
-    print(t)
+    #print(t)
     a = equations.conservationEqs(y, J_AtC = 0.,
                               ExpType = 2,
                               StateType = StateType,
@@ -27,13 +27,13 @@ def s2(t, y, pW): ## For State 2 Resp.
     return a
 
 def s3(t, y, pW): ## Differential equations, with optional arguments specified
-    print(t)
+    #print(t)
     return equations.conservationEqs(y, J_AtC = 0.,
                               ExpType = 2,
                               StateType = StateType, potassiumW = pW)
 
 def lr(t, y, pW): ## Differential equations, with optional arguments specified
-    print(t)
+    #print(t)
     a = equations.conservationEqs(y, J_AtC = 0.,
                               ExpType = 2,
                               StateType = StateType,
@@ -43,7 +43,7 @@ def lr(t, y, pW): ## Differential equations, with optional arguments specified
     return a
 
 def po(t, y, pW):
-    print(t)
+    #print(t)
     a = equations.conservationEqs(y, J_AtC = 0.,
                               ExpType = 2,
                               StateType = StateType,
@@ -55,7 +55,7 @@ def po(t, y, pW):
 
 ## mTAL
 def s2mTAL(t, y, pW): ## For State 2 Resp.
-    print(t)
+    #print(t)
     a = equations.conservationEqs(y, J_AtC = J_AtC,
                               ExpType = 2,
                               StateType = StateType,
@@ -64,14 +64,14 @@ def s2mTAL(t, y, pW): ## For State 2 Resp.
     return a
 
 def s3mTAL(t, y, pW): ## Differential equations, with optional arguments specified
-    print(t)
+    #print(t)
     return equations.conservationEqs(y, J_AtC = 0.,
                               ExpType = 2,
                               StateType = StateType,
                               tubule = "mTAL", potassiumW = pW)
 
 def pomTAL(t, y, pW):
-    print(t)
+    #print(t)
     a = equations.conservationEqs(y, J_AtC = 0.,
                               ExpType = 2,
                               StateType = StateType,
@@ -80,11 +80,12 @@ def pomTAL(t, y, pW):
     a[pc.pcIS.iATP_c] = 0
     return a
 
-def cost(PTpred, mTALpred, ko2pt, ko2mTAL):
-    S3 = PTpred[0]
-    RCR = PTpred[1]
-    LR = PTpred[2]
-    PO = PTpred[3]
+def costFn(PTpred, mTALpred, ko2pt, ko2mTAL):
+    KH = PTpred[0]
+    S3 = PTpred[1]
+    RCR = PTpred[2]
+    LR = PTpred[3]
+    PO = PTpred[4]
     RCRmTAL = mTALpred[0]
     POmTAL = mTALpred[1]
     if PO > POmTAL:
@@ -93,6 +94,9 @@ def cost(PTpred, mTALpred, ko2pt, ko2mTAL):
         compare = 0
     if ko2pt < ko2mTAL:
         compare+=1
+    print(((S3-4.08)/0.6)**2+((RCR-8.5)/0.9)**2+((LR-0.37)/0.06)**2+\
+           ((PO-1.8)/0.1)**2+((KH-1.05)/0.025)**2+((RCRmTAL-10.0)/1.6)**2+\
+           ((POmTAL-1.92)/0.13)**2+compare)
 
     return ((S3-4.08)/0.6)**2+((RCR-8.5)/0.9)**2+((LR-0.37)/0.06)**2+\
            ((PO-1.8)/0.1)**2+((KH-1.05)/0.025)**2+((RCRmTAL-10.0)/1.6)**2+\
@@ -110,7 +114,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     kleakmTAL = optParam[7]
     antpt = optParam[8]
     antmTAL = optParam[9]
-
+    print(optParam)
     pW = kleakpt
 
     ## Proximal Tubule Predictions
@@ -125,11 +129,11 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     pc.params[34] = 0.00675 * antpt
 
     resultsKH = sci.solve_ivp(fun = lambda t, y: kh(t, y, pW = pW),
-                              t_span = (0, 10),
-                              y0 = pc.ics,
+                              t_span = (0, 20),
+                              y0 = pc.finalConditions,
                               method = "LSODA",
                               atol = 1e-10,
-                              rtol = 1e-10)
+                              rtol = 1e-8)
 
     resultsKH = np.concatenate((np.array([resultsKH.t]), resultsKH.y)).transpose()
     resultsKH = pd.DataFrame(resultsKH,
@@ -146,17 +150,22 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                                       "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
+    if len(resultsKH) > 100000:
+        length = len(resultsKH) // 100
+        indexSet = [100*i for i in range(0, length)]
+        resultsKH = resultsKH.iloc[indexSet, ]
+
     resultsKH.to_csv("../results/resultsKH100Test.csv")
 
     ## For everything after this point use the following:
     pc.params[37] = khpt * 4.7580e+06 / 15
 
     resultsKHbase = sci.solve_ivp(fun = lambda t, y: kh(t, y, pW = pW),
-                              t_span = (0, 10),
-                              y0 = pc.ics,
+                              t_span = (0, 20),
+                              y0 = pc.finalConditions,
                               method = "LSODA",
                               atol = 1e-10,
-                              rtol = 1e-10)
+                              rtol = 1e-8)
 
     resultsKHbase = np.concatenate((np.array([resultsKHbase.t]), resultsKHbase.y)).transpose()
     resultsKHbase = pd.DataFrame(resultsKHbase,
@@ -173,6 +182,11 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                                       "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
+    if len(resultsKHbase) > 100000:
+        length = len(resultsKHbase) // 100
+        indexSet = [100*i for i in range(0, length)]
+        resultsKHbase = resultsKHbase.iloc[indexSet, ]
+
     resultsKHbase.to_csv("../results/resultsKHbaseTest.csv")
 
     originalICs = pc.vitroics
@@ -214,7 +228,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                               y0 = pc.vitroics,
                               method = "LSODA",
                               atol = 1e-10,
-                              rtol = 1e-10)
+                              rtol = 1e-8)
 
 
     resultsPO = sci.solve_ivp(fun = lambda t, y: po(t, y, pW = pW),
@@ -222,7 +236,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                               y0 = pc.vitroics,
                               method = "LSODA",
                               atol = 1e-10,
-                              rtol = 1e-10)
+                              rtol = 1e-1)
 
     state = results.y[-1]
     #J1 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
@@ -243,6 +257,10 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                                       "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
+    if len(resultsS2) > 100000:
+        length = len(resultsS2) // 100
+        indexSet = [100*i for i in range(0, length)]
+        resultsS2 = resultsS2.iloc[indexSet, ]
     resultsS2.to_csv("../results/resultsState2F1KHTest.csv")
 
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
@@ -260,6 +278,11 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                                       "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
+    if len(results) > 100000:
+        length = len(results) // 100
+        indexSet = [100*i for i in range(0, length)]
+        results = results.iloc[indexSet, ]
+
     results.to_csv("../results/resultsState2KHTest.csv")
 
     resultsLR = np.concatenate((np.array([resultsLR.t]), resultsLR.y)).transpose()
@@ -277,6 +300,12 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                                     "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                     "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                     "PCr_c", "AMP_c"])
+
+    if len(resultsLR) > 100000:
+        length = len(resultsLR) // 100
+        indexSet = [100*i for i in range(0, length)]
+        resultsLR = resultsLR.iloc[indexSet, ]
+
     resultsLR.to_csv("../results/resultsState2LRKHTest.csv")
 
 
@@ -295,6 +324,11 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                                     "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                     "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                     "PCr_c", "AMP_c"])
+    if len(resultsPO) > 100000:
+        length = len(resultsPO) // 100
+        indexSet = [100*i for i in range(0, length)]
+        resultsPO = resultsPO.iloc[indexSet, ]
+
     resultsPO.to_csv("../results/resultsState2POKHTest.csv")
     print("Done State 2 calculations.")
 
@@ -330,6 +364,12 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                                       "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
+
+    if len(results) > 100000:
+        length = len(results) // 100
+        indexSet = [100*i for i in range(0, length)]
+        results = results.iloc[indexSet, ]
+
     results.to_csv("../results/resultsState3KHTest.csv")
     print("Done State 3 calculations.")
 
@@ -366,6 +406,11 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                                       "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
+    if len(results) > 100000:
+        length = len(results) // 100
+        indexSet = [100*i for i in range(0, length)]
+        results = results.iloc[indexSet, ]
+
     results.to_csv("../results/resultsLeakRespKHTest.csv")
     print("Done Leak Respiration calculations.")
 
@@ -402,6 +447,11 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                                       "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
+    if len(results) > 100000:
+        length = len(results) // 100
+        indexSet = [100*i for i in range(0, length)]
+        results = results.iloc[indexSet, ]
+
     results.to_csv("../results/resultsPOKHTest.csv")
     print("Done P/O ratio calculations.")
 
@@ -580,6 +630,10 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                                       "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
+    if len(results) > 100000:
+        length = len(results) // 100
+        indexSet = [100*i for i in range(0, length)]
+        results = results.iloc[indexSet, ]
     results.to_csv("../results/resultsState2TAL.csv")
 
     resultsPO = np.concatenate((np.array([resultsPO.t]), resultsPO.y)).transpose()
@@ -609,8 +663,8 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                             t_span = (0, 20),
                             y0 = pc.vitroics,
                             method = "LSODA",
-                            atol = 1e-10,
-                            rtol = 1e-10)
+                            atol = 1e-8,
+                            rtol = 1e-8)
 
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
     results = pd.DataFrame(results,
@@ -627,6 +681,11 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                                       "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
+    if len(results) > 100000:
+        length = len(results) // 100
+        indexSet = [100*i for i in range(0, length)]
+        results = results.iloc[indexSet, ]
+
     results.to_csv("../results/resultsState3TAL.csv")
     print("Done State 3 calculations.")
 
@@ -641,8 +700,8 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                             t_span = (0, 20),
                             y0 = pc.vitroics,
                             method = "LSODA",
-                            atol = 1e-10,
-                            rtol = 1e-10)
+                            atol = 1e-8,
+                            rtol = 1e-8)
 
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
     results = pd.DataFrame(results,
@@ -659,6 +718,10 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                                       "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
+    if len(results) > 100000:
+        length = len(results) // 100
+        indexSet = [100*i for i in range(0, length)]
+        results = results.iloc[indexSet, ]
     results.to_csv("../results/resultsPOTAL.csv")
     print("Done P/O ratio calculations.")
 
@@ -681,13 +744,13 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     for i in range(len(s3dat)):
         s3t = np.delete(s3dat[i], [0, 1])
-        Js3.append(fluxes.fluxesmTAL(s3t, param = pc.params, ExpType = 2))
+        Js3.append(fluxesmTAL.fluxesmTAL(s3t, param = pc.params, ExpType = 2))
 
     for i in range(len(podat)):
        pot = np.delete(podat[i], [0, 1])
-       Jpo.append(fluxes.fluxesmTAL(pot, param = pc.params, ExpType = 2))
+       Jpo.append(fluxesmTAL.fluxesmTAL(pot, param = pc.params, ExpType = 2))
 
-    Js2 = fluxes.fluxesmTAL(s2dat, param = pc.params, ExpType = 2)
+    Js2 = fluxesmTAL.fluxesmTAL(s2dat, param = pc.params, ExpType = 2)
     JO2s2 = Js2[2]
     JATPs2 = Js2[3]
 
@@ -716,12 +779,14 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     mTALpred = (valsS2["JO2"], valsS3["JO2"], RCR, PO)
 
     ## Compute cost
-    cost = cost(PTpred, mTALpred, ko2pt, ko2mTAL)
+    global costFn
+    costVal = costFn(PTpred, mTALpred, ko2pt, ko2mTAL)
+    return costVal
 
 def main():
 
     results = sco.minimize(fun = optimFn,
-                           x0 = np.array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.]),
+                           x0 = np.array([1., 1., 1., 0.5, 1., 1., 1., 1., 1., 1.]),
                            bounds = ((0.1, 2.),
                                      (0.1, 2.),
                                      (0.1, 2.),
