@@ -94,6 +94,13 @@ def costFn(PTpred, mTALpred, ko2pt, ko2mTAL):
         compare = 0
     if ko2pt < ko2mTAL:
         compare+=1
+    print(((S3 - 4.08) / 0.6) ** 2)
+    print(((RCR - 8.5) / 0.9) ** 2)
+    print(((LR - 0.37) / 0.06) ** 2)
+    print(((PO - 1.8) / 0.1) ** 2)
+    print(((KH - 1.05) / 0.025) ** 2)
+    print(((RCRmTAL - 10.0) / 1.6) ** 2)
+    print(((POmTAL - 1.92) / 0.13) ** 2)
     print(((S3-4.08)/0.6)**2+((RCR-8.5)/0.9)**2+((LR-0.37)/0.06)**2+\
            ((PO-1.8)/0.1)**2+((KH-1.05)/0.025)**2+((RCRmTAL-10.0)/1.6)**2+\
            ((POmTAL-1.92)/0.13)**2+compare)
