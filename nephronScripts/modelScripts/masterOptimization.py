@@ -130,6 +130,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     resultsKH = sci.solve_ivp(fun = lambda t, y: kh(t, y, pW = pW),
                               t_span = (0, 20),
+                              t_eval = np.linspace(0, 20, 10001),
                               y0 = pc.finalConditions,
                               method = "LSODA",
                               atol = 1e-10,
@@ -162,6 +163,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     resultsKHbase = sci.solve_ivp(fun = lambda t, y: kh(t, y, pW = pW),
                               t_span = (0, 20),
+                              t_eval=np.linspace(0, 20, 10001),
                               y0 = pc.finalConditions,
                               method = "LSODA",
                               atol = 1e-10,
@@ -211,6 +213,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     resultsS2 = sci.solve_ivp(fun = lambda t, y: s2(t, y, pW = pW),
                               t_span = (0, 20),
+                              t_eval=np.linspace(0, 20, 10001),
                               y0 = pc.vitroics,
                               method = "LSODA",
                               atol = 1e-10,
@@ -218,6 +221,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     results = sci.solve_ivp(fun = lambda t, y: s3(t, y, pW = pW),
                             t_span = (0, 20),
+                            t_eval=np.linspace(0, 20, 10001),
                             y0 = pc.vitroics,
                             method = "LSODA",
                             atol = 1e-10,
@@ -225,6 +229,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     resultsLR = sci.solve_ivp(fun = lambda t, y: lr(t, y, pW = pW),
                               t_span = (0, 20),
+                              t_eval=np.linspace(0, 20, 10001),
                               y0 = pc.vitroics,
                               method = "LSODA",
                               atol = 1e-10,
@@ -233,6 +238,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     resultsPO = sci.solve_ivp(fun = lambda t, y: po(t, y, pW = pW),
                               t_span = (0, 20),
+                              t_eval=np.linspace(0, 20, 10001),
                               y0 = pc.vitroics,
                               method = "LSODA",
                               atol = 1e-10,
@@ -340,6 +346,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     results = sci.solve_ivp(fun = lambda t, y: s3(t, y, pW = pW),
                             t_span = (0, 20),
+                            t_eval=np.linspace(0, 20, 10001),
                             y0 = pc.vitroics,
                             method = "LSODA",
                             atol = 1e-10,
@@ -382,6 +389,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     results = sci.solve_ivp(fun = lambda t, y: lr(t, y, pW = pW),
                             t_span = (0, 20),
+                            t_eval=np.linspace(0, 20, 10001),
                             y0 = pc.vitroics,
                             method = "LSODA",
                             atol = 1e-10,
@@ -423,6 +431,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     results = sci.solve_ivp(fun = lambda t, y: po(t, y, pW = pW),
                             t_span = (0, 20),
+                            t_eval=np.linspace(0, 20, 10001),
                             y0 = pc.vitroics,
                             method = "LSODA",
                             atol = 1e-10,
@@ -603,6 +612,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     results = sci.solve_ivp(fun = lambda t, y: s3mTAL(t, y, pW = pW),
                             t_span = (0, 20),
+                            t_eval=np.linspace(0, 20, 10001),
                             y0 = pc.vitroics,
                             method = "LSODA",
                             atol = 1e-10,
@@ -610,6 +620,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     resultsPO = sci.solve_ivp(fun = lambda t, y: pomTAL(t, y, pW = pW),
                               t_span = (0, 20),
+                              t_eval=np.linspace(0, 20, 10001),
                               y0 = pc.vitroics,
                               method = "LSODA",
                               atol = 1e-10,
@@ -661,6 +672,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     results = sci.solve_ivp(fun = lambda t, y: s3mTAL(t, y, pW = pW),
                             t_span = (0, 20),
+                            t_eval=np.linspace(0, 20, 10001),
                             y0 = pc.vitroics,
                             method = "LSODA",
                             atol = 1e-8,
@@ -698,6 +710,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
 
     results = sci.solve_ivp(fun = lambda t, y: pomTAL(t, y, pW = pW),
                             t_span = (0, 20),
+                            t_eval=np.linspace(0, 20, 10001),
                             y0 = pc.vitroics,
                             method = "LSODA",
                             atol = 1e-8,
