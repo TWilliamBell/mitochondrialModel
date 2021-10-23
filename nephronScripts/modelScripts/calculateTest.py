@@ -117,7 +117,7 @@ def main():
 
 
     ## Extract values of interest
-    #valsdPsi = {"Up" : khUp[1], "Base" : reg[1]}
+    valsdPsi = {"Up" : khUp[1], "Base" : reg[1]}
     valsS2 = {"JO2" : (JO2s2/2.)*convert, "JATP" : JATPs2*convert}
     valsS3 = {"JO2" : (JO2s3/2.)*convert, "JATP" : JATPs3*convert}
     valsLR = {"JO2" : (JO2lr/2.)*convert, "JATP" : JATPlr*convert}

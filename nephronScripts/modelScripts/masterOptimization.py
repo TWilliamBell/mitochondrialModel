@@ -94,16 +94,24 @@ def costFn(PTpred, mTALpred, ko2pt, ko2mTAL):
         compare = 0
     if ko2pt < ko2mTAL:
         compare+=1
-    print(((S3 - 4.08) / 0.6) ** 2)
-    print(((RCR - 8.5) / 0.9) ** 2)
-    print(((LR - 0.37) / 0.06) ** 2)
-    print(((PO - 1.8) / 0.1) ** 2)
-    print(((KH - 1.05) / 0.025) ** 2)
-    print(((RCRmTAL - 10.0) / 1.6) ** 2)
-    print(((POmTAL - 1.92) / 0.13) ** 2)
+    print(S3)
+    print(RCR)
+    print(LR)
+    print(PO)
+    print(KH)
+    print(RCRmTAL)
+    print(POmTAL)
     print(((S3-4.08)/0.6)**2+((RCR-8.5)/0.9)**2+((LR-0.37)/0.06)**2+\
            ((PO-1.8)/0.1)**2+((KH-1.05)/0.025)**2+((RCRmTAL-10.0)/1.6)**2+\
            ((POmTAL-1.92)/0.13)**2+compare)
+    # 0.17114754017393957
+    # 1.8331541345468987
+    # 0.09039176646804015
+    # 0.24157483832959076
+    # 0.9855874880697865
+    # 0.08913173968609439
+    # 0.16767619630595845
+    # 589.6026474085759
 
     return ((S3-4.08)/0.6)**2+((RCR-8.5)/0.9)**2+((LR-0.37)/0.06)**2+\
            ((PO-1.8)/0.1)**2+((KH-1.05)/0.025)**2+((RCRmTAL-10.0)/1.6)**2+\
@@ -132,7 +140,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     ## and see if we get that consistent 1.05 increase in dPsi
 
     pc.params[37] = khpt * (4.7580e+06 / 15) * 20
-    pc.params[39] = 347.4 * hleakpt
+    pc.params[38] = 347.4 * hleakpt
     pc.params[34] = 0.00675 * antpt
 
     resultsKH = sci.solve_ivp(fun = lambda t, y: kh(t, y, pW = pW),
@@ -598,8 +606,10 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     ## mTAL predictions
     pc.pcPC.k_O2 = 1.2e-4 * ko2mTAL
     pc.params[37] = khmTAL * 4.7580e+06 / 15
-    pc.params[39] = 347.4 * hleakmTAL
+    pc.params[38] = 347.4 * hleakmTAL
     pc.params[34] = 0.00675 * antmTAL
+
+    pc.vitroics = originalICs
 
     pW = kleakmTAL
 
