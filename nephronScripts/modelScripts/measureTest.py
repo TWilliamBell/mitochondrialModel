@@ -7,65 +7,73 @@ import equations
 import pc
 import fluxes
 
-J_AtC = 1.256e-3 ## Used by Edwards et al.
+J_AtC = 0.
 
 ExpType = 1 ## in vivo
 StateType = 1
 
-def kh(t, y):
-    return equations.conservationEqs(y, J_AtC = J_AtC,
+def kh(t, y, pW):
+    return equations.conservationEqs(y, J_AtC = 1.256e-3,
                               ExpType = ExpType,
-                              StateType = StateType)
+                              StateType = StateType,
+                              w = [1., 1., 1., 1.],
+                              potassiumW = pW)
 
 ExpType = 2 ## Change to in vitro
 
-def s2(t, y): ## For State 2 Resp.
-    print(t)
+def s2(t, y, pW): ## For State 2 Resp.
+    #print(t)
     a = equations.conservationEqs(y, J_AtC = J_AtC,
                               ExpType = ExpType,
                               StateType = StateType,
-                              w = [1., 1., 1., 0.])
+                              w = [1., 1., 1., 0.],
+                              potassiumW = pW)
     return a
 
-def s3(t, y): ## Differential equations, with optional arguments specified
-    print(t)
+def s3(t, y, pW): ## Differential equations, with optional arguments specified
+    #print(t)
     return equations.conservationEqs(y, J_AtC = J_AtC,
                               ExpType = ExpType,
-                              StateType = StateType)
+                              StateType = StateType,
+                              potassiumW = pW)
 
-def lr(t, y): ## Differential equations, with optional arguments specified
-    print(t)
+def lr(t, y, pW): ## Differential equations, with optional arguments specified
+    #print(t)
     a = equations.conservationEqs(y, J_AtC = 0.,
                               ExpType = ExpType,
                               StateType = StateType,
-                              w = [1., 1., 1., 0.])
+                              w = [1., 1., 1., 0.],
+                              potassiumW = pW)
     a[pc.pcIS.iADP_c] = 0
     a[pc.pcIS.iATP_c] = 0
     return a
 
-def po(t, y):
-    print(t)
+def po(t, y, pW):
+    #print(t)
     a = equations.conservationEqs(y, J_AtC = J_AtC,
                               ExpType = ExpType,
-                              StateType = StateType)
+                              StateType = StateType,
+                              w = [1., 1., 1., 1.],
+                              potassiumW = pW)
     a[pc.pcIS.iADP_c] = 0
     a[pc.pcIS.iATP_c] = 0
     return a
 
-pc.params[35] = (1./0.675)*pc.params[35]
-pc.params[39] = (1./0.95)*pc.params[39]
+pc.params[35] = pc.params[35]
+pc.params[39] = pc.params[39]
 
-def main(): ## Runs differential equation for time span and outputs results to
+def main(pW = 1.): ## Runs differential equation for time span and outputs results to
     ## a csv file and a feather file.
 
     ## The in vivo case
     ## Increase Potassium-Hydrogen Antiporter activity by 100x from 'new normal'
     ## and see if we get that consistent 1.05 increase in dPsi
 
-    pc.params[37] = (4.7580e+06 / 15) * 20
+    pc.params[37] = pc.params[37] * 20
 
-    resultsKH = sci.solve_ivp(fun = kh,
-                              t_span = (0, 120),
+
+    resultsKH = sci.solve_ivp(fun = lambda t, y: kh(t, y, pW = pW),
+                              t_span = (0, 10),
                               y0 = pc.ics,
                               method = "LSODA",
                               atol = 1e-8,
@@ -89,10 +97,10 @@ def main(): ## Runs differential equation for time span and outputs results to
     resultsKH.to_csv("../results/resultsKH100Test.csv")
 
     ## For everything after this point use the following:
-    pc.params[37] = 4.7580e+06 / 15
+    pc.params[37] = pc.params[37] / 20.0
 
-    resultsKHbase = sci.solve_ivp(fun = kh,
-                              t_span = (0, 120),
+    resultsKHbase = sci.solve_ivp(fun = lambda t, y: kh(t, y, pW = pW),
+                              t_span = (0, 10),
                               y0 = pc.ics,
                               method = "LSODA",
                               atol = 1e-8,
@@ -119,8 +127,6 @@ def main(): ## Runs differential equation for time span and outputs results to
 
     ## What follows is for the in vitro case
 
-    pc.params[37] = 4.7580e+06 / 15
-
     ## State 2 Respiration
 
     ## These inital conditions are used for measurements in Edwards et al
@@ -135,34 +141,34 @@ def main(): ## Runs differential equation for time span and outputs results to
     pc.vitroics[pc.pcIS.iPYR_c] = 5e-3
     pc.vitroics[pc.pcIS.iMAL_c] = 2e-3
 
-    resultsS2 = sci.solve_ivp(fun = s2,
-                              t_span = (0, 120),
+    resultsS2 = sci.solve_ivp(fun = lambda t, y: s2(t, y, pW = pW),
+                              t_span = (0, 20),
                               y0 = pc.vitroics,
                               method = "LSODA",
-                              atol = 1e-6,
-                              rtol = 1e-6)
+                              atol = 1e-10,
+                              rtol = 1e-10)
 
-    results = sci.solve_ivp(fun = s3,
-                            t_span = (0, 120),
+    results = sci.solve_ivp(fun = lambda t, y: s3(t, y, pW = pW),
+                            t_span = (0, 20),
                             y0 = pc.vitroics,
                             method = "LSODA",
-                            atol = 1e-8,
-                            rtol = 1e-8)
+                            atol = 1e-10,
+                            rtol = 1e-10)
 
-    resultsLR = sci.solve_ivp(fun = lr,
-                              t_span = (0, 120),
+    resultsLR = sci.solve_ivp(fun = lambda t, y: lr(t, y, pW = pW),
+                              t_span = (0, 20),
                               y0 = pc.vitroics,
                               method = "LSODA",
-                              atol = 1e-8,
-                              rtol = 1e-8)
+                              atol = 1e-10,
+                              rtol = 1e-10)
 
 
-    resultsPO = sci.solve_ivp(fun = po,
-                              t_span = (0, 120),
+    resultsPO = sci.solve_ivp(fun = lambda t, y: po(t, y, pW = pW),
+                              t_span = (0, 20),
                               y0 = pc.vitroics,
                               method = "LSODA",
-                              atol = 1e-8,
-                              rtol = 1e-8)
+                              atol = 1e-10,
+                              rtol = 1e-10)
 
     state = results.y[-1]
     J1 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
@@ -244,12 +250,12 @@ def main(): ## Runs differential equation for time span and outputs results to
     pc.vitroics = s2newIC
     pc.vitroics[pc.pcIS.iADP_c] = 2.5e-3
 
-    results = sci.solve_ivp(fun = s3,
-                            t_span = (0, 120),
+    results = sci.solve_ivp(fun = lambda t, y: s3(t, y, pW),
+                            t_span = (0, 20),
                             y0 = pc.vitroics,
                             method = "LSODA",
-                            atol = 1e-6,
-                            rtol = 1e-8)
+                            atol = 1e-10,
+                            rtol = 1e-10)
 
 
     state = results.y[-1]
@@ -280,11 +286,11 @@ def main(): ## Runs differential equation for time span and outputs results to
     pc.vitroics = s2newICLR
     pc.vitroics[pc.pcIS.iADP_c] = 2.5e-3
 
-    results = sci.solve_ivp(fun = lr,
-                            t_span = (0, 120),
+    results = sci.solve_ivp(fun = lambda t, y: lr(t, y, pW = pW),
+                            t_span = (0, 20),
                             y0 = pc.vitroics,
                             method = "LSODA",
-                            atol = 1e-8,
+                            atol = 1e-10,
                             rtol = 1e-10)
 
 
@@ -316,11 +322,11 @@ def main(): ## Runs differential equation for time span and outputs results to
     pc.vitroics[pc.pcIS.iATP_c] = 2.0e-3
 
 
-    results = sci.solve_ivp(fun = po,
-                            t_span = (0, 120),
+    results = sci.solve_ivp(fun = lambda t, y: po(t, y, pW = pW),
+                            t_span = (0, 20),
                             y0 = pc.vitroics,
                             method = "LSODA",
-                            atol = 1e-8,
+                            atol = 1e-10,
                             rtol = 1e-10)
 
 
@@ -347,7 +353,7 @@ def main(): ## Runs differential equation for time span and outputs results to
 
 
 #start = time.time()
-main()
+#main()
 #end = time.time()
 #print(end-start)
 

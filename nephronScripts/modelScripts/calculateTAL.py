@@ -74,5 +74,6 @@ def main():
     print("\n")
     print("The P/O ratio is:")
     print(PO)
+    return (RCR, PO)
 
-main()
+#main()

@@ -1,13 +1,10 @@
-## Saved you a run:
-# S3 JO2: 4.23, RCR: 11.87, LR: 0.47, PO: 2.15
-
 import numpy as np
 import pandas as pd
 
 import pc
 import fluxes
 
-J_AtC = 1.256e-3 ## Used by Edwards et al.
+J_AtC = 0.
 ExpType = 2 ## in vitro
 StateType = 1
 
@@ -70,22 +67,26 @@ def main():
 
     for i in range(len(s3)):
         s3t = np.delete(s3[i], [0, 1])
-        Js3.append(fluxes.fluxes(s3t, param = pc.params, ExpType = ExpType))
+        Js3.append(fluxes.fluxes(s3t, param = pc.params, ExpType = ExpType,
+                              w = [1., 1., 1., 1.]))
 
     for i in range(len(lr)):
         lrt = np.delete(lr[i], [0, 1])
-        Jlr.append(fluxes.fluxes(lrt, param = pc.params, ExpType = ExpType))
+        Jlr.append(fluxes.fluxes(lrt, param = pc.params, ExpType = ExpType,
+                              w = [1., 1., 1., 1.]))
 
     for i in range(len(po)):
         pot = np.delete(po[i], [0, 1])
-        Jpo.append(fluxes.fluxes(pot, param = pc.params, ExpType = ExpType))
+        Jpo.append(fluxes.fluxes(pot, param = pc.params, ExpType = ExpType,
+                              w = [1., 1., 1., 1.]))
 
     #s2JO2 = [item[2] for item in Js2]
     #JO2s2 = max(s2JO2)
     #ind2 = np.argmax(s2JO2)
     #s2ATP = [item[3] for item in Js2]
     #JATPs2 = s2ATP[ind2]
-    Js2 = fluxes.fluxes(s2, param = pc.params, ExpType = ExpType)
+    Js2 = fluxes.fluxes(s2, param = pc.params, ExpType = ExpType,
+                              w = [1., 1., 1., 0.])
     JO2s2 = Js2[2]
     JATPs2 = Js2[3]
 
@@ -116,7 +117,7 @@ def main():
 
 
     ## Extract values of interest
-    valsdPsi = {"Up" : khUp[1], "Base" : reg[1]}
+    #valsdPsi = {"Up" : khUp[1], "Base" : reg[1]}
     valsS2 = {"JO2" : (JO2s2/2.)*convert, "JATP" : JATPs2*convert}
     valsS3 = {"JO2" : (JO2s3/2.)*convert, "JATP" : JATPs3*convert}
     valsLR = {"JO2" : (JO2lr/2.)*convert, "JATP" : JATPlr*convert}
@@ -130,9 +131,9 @@ def main():
     KH = valsdPsi["Up"]/valsdPsi["Base"]
 
     ## All values used in fitting
-    print("The dPsi increases by this ratio in the presence of Nigericin:")
-    print(KH)
-    print("\n")
+    #print("The dPsi increases by this ratio in the presence of Nigericin:")
+    #print(KH)
+    #print("\n")
     print("The oxygen consumption at maximum in State 3 is:")
     print(valsS3["JO2"])
     print("\n")
@@ -144,5 +145,6 @@ def main():
     print("\n")
     print("The P/O ratio is:")
     print(PO)
+    return (KH, valsS3["JO2"], RCR, valsLR["JO2"], PO)
 
-main()
+#main()
