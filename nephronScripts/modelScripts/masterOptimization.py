@@ -803,6 +803,8 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     ## Compute cost
     global costFn
     costVal = costFn(PTpred, mTALpred, ko2pt, ko2mTAL)
+    if np.isnan(costVal) or costVal != costVal:
+        costVal = 20000.
     return costVal
 
 def main():
@@ -817,8 +819,8 @@ def main():
                                      (0.1, 2.),
                                      (0.1, 2.),
                                      (0.1, 2.),
-                                     (0.1, 2.),
-                                     (0.1, 2.)))
+                                     (0.5, 2.),
+                                     (0.5, 2.)))
     a = pd.DataFrame(results.x)
     a.to_csv("../results/optimizationOutput.csv")
     print(a.success)
