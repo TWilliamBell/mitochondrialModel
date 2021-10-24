@@ -798,7 +798,7 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
     RCR = valsS3["JO2"]/valsS2["JO2"]
 
     ## All values used in fitting
-    mTALpred = (valsS2["JO2"], valsS3["JO2"], RCR, PO)
+    mTALpred = (RCR, PO)#(valsS2["JO2"], valsS3["JO2"], RCR, PO)
 
     ## Compute cost
     global costFn
