@@ -59,15 +59,15 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
                             t_span = (0, 20),
                             y0 = pc.vitroics,
                             method = "LSODA",
-                            atol = 1e-8,
-                            rtol = 1e-8)
+                            atol = 1e-10,
+                            rtol = 1e-10)
 
     resultsPO = sci.solve_ivp(fun = lambda t, y: po(t, y, pW),
                               t_span = (0, 20),
                               y0 = pc.vitroics,
                               method = "LSODA",
-                              atol = 1e-8,
-                              rtol = 1e-8)
+                              atol = 1e-10,
+                              rtol = 1e-10)
 
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
     results = pd.DataFrame(results,
@@ -113,7 +113,7 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
                             t_span = (0, 20),
                             y0 = pc.vitroics,
                             method = "LSODA",
-                            atol = 1e-6,
+                            atol = 1e-8,
                             rtol = 1e-8)
 
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
@@ -146,7 +146,7 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
                             y0 = pc.vitroics,
                             method = "LSODA",
                             atol = 1e-8,
-                            rtol = 1e-10)
+                            rtol = 1e-8)
 
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
     results = pd.DataFrame(results,

@@ -7,7 +7,7 @@ import fluxesmTAL as fluxes
 J_AtC = 4.39e-4 ## Used by Edwards et al.
 ExpType = 2 ## in vitro
 StateType = 1
-pc.pcPC.k_O2 = pc.pcPC.k_O2/2.0
+#pc.pcPC.k_O2 = pc.pcPC.k_O2/2.0
 
 def main():
 
