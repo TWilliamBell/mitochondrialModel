@@ -98,3 +98,5 @@ def main():
     print(a.success)
 
 main()
+
+#optimFn([1., 1., 1., 0.5, 1., 1., 1., 1., 1.00000001, 1.])

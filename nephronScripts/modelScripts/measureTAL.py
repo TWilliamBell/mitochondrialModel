@@ -9,6 +9,7 @@ J_AtC = 4.39e-4 ## Used by Edwards et al.
 StateType = 1
 
 #pc.pcPC.k_O2 = pc.pcPC.k_O2/2.0
+#pc.params[34] = 1.00000001*pc.params[34]
 
 def s2(t, y, pW): ## For State 2 Resp.
     #print(t)
@@ -113,8 +114,8 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
                             t_span = (0, 20),
                             y0 = pc.vitroics,
                             method = "LSODA",
-                            atol = 1e-8,
-                            rtol = 1e-8)
+                            atol = 1e-10,
+                            rtol = 1e-10)
 
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
     results = pd.DataFrame(results,
@@ -145,8 +146,8 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
                             t_span = (0, 20),
                             y0 = pc.vitroics,
                             method = "LSODA",
-                            atol = 1e-8,
-                            rtol = 1e-8)
+                            atol = 1e-10,
+                            rtol = 1e-10)
 
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
     results = pd.DataFrame(results,

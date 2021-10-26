@@ -684,8 +684,8 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                             t_eval=np.linspace(0, 20, 10001),
                             y0 = pc.vitroics,
                             method = "LSODA",
-                            atol = 1e-8,
-                            rtol = 1e-8)
+                            atol = 1e-10,
+                            rtol = 1e-10)
 
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
     results = pd.DataFrame(results,
@@ -722,8 +722,8 @@ def optimFn(optParam): ## Runs differential equation for time span and outputs r
                             t_eval=np.linspace(0, 20, 10001),
                             y0 = pc.vitroics,
                             method = "LSODA",
-                            atol = 1e-8,
-                            rtol = 1e-8)
+                            atol = 1e-10,
+                            rtol = 1e-10)
 
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
     results = pd.DataFrame(results,
