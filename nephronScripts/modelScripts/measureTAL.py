@@ -43,7 +43,11 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
     ## a csv file and a feather file.
 
     ## State 2 Respiration
-
+    print(pW)
+    print(pc.params[34])
+    print(pc.params[37])
+    print(pc.params[38])
+    print(pc.pcPC.k_O2)
     ## These inital conditions are used for measurements in Edwards et al
     ## 2020 based on bath conditions in Schiffer et al 2018
     pc.vitroics[pc.pcIS.iH_c] = 10**-7.1
@@ -102,7 +106,7 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
                                     "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                     "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                     "PCr_c", "AMP_c"])
-    print("Done State 2 calculations.")
+    #print("Done State 2 calculations.")
 
     ## State 3 Respiration
     s2newIC = np.delete(results.tail(1).to_numpy()[0], [0])
@@ -133,7 +137,7 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
     results.to_csv("../results/resultsState3TAL.csv")
-    print("Done State 3 calculations.")
+    #print("Done State 3 calculations.")
 
     ## P/O ratio at half-maximum respiration
     s2newICPO = np.delete(resultsPO.tail(1).to_numpy()[0], [0])
@@ -165,6 +169,6 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
     results.to_csv("../results/resultsPOTAL.csv")
-    print("Done P/O ratio calculations.")
+    #print("Done P/O ratio calculations.")
 
 #main()

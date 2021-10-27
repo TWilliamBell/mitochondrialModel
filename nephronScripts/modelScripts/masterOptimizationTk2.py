@@ -53,6 +53,10 @@ def optimFn(optParam):
     pc.params[38] = 347.4 * hleakpt
     pc.params[34] = 0.00675 * antpt
 
+    #print(pc.params[37])
+    #print(pc.params[38])
+    #print(pc.params[34])
+
     ## PT measure
     mtpt.main(pW)
     ## PT calculate
@@ -74,7 +78,7 @@ def optimFn(optParam):
     mtalVals = ctal.main()
     print("Done mTAL calculations.")
     vals = ptVals + mtalVals
-    print(vals)
+    #print(vals)
     costVal = costFn(vals)
     print(costVal)
     return costVal
@@ -93,9 +97,9 @@ def main():
                                      (0.1, 2.),
                                      (0.1, 2.),
                                      (0.1, 2.)))
+    print(a.success)
     a = pd.DataFrame(results.x)
     a.to_csv("../results/optimizationOutput.csv")
-    print(a.success)
 
 main()
 

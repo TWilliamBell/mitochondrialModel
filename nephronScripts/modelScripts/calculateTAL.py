@@ -8,6 +8,7 @@ J_AtC = 4.39e-4 ## Used by Edwards et al.
 ExpType = 2 ## in vitro
 StateType = 1
 #pc.pcPC.k_O2 = pc.pcPC.k_O2/2.0
+#pc.params[34] = 1.00000001*pc.params[34]
 
 def main():
 
@@ -63,17 +64,17 @@ def main():
     RCR = valsS3["JO2"]/valsS2["JO2"]
 
     ## All values used in fitting
-    print("State 2 resp:")
-    print(valsS2["JO2"])
-    print("\n")
-    print("The oxygen consumption at maximum in State 3 is:")
-    print(valsS3["JO2"])
-    print("\n")
-    print("The Respiratory Control Ratio is:")
-    print(RCR)
-    print("\n")
-    print("The P/O ratio is:")
-    print(PO)
+    # print("State 2 resp:")
+    # print(valsS2["JO2"])
+    # print("\n")
+    # print("The oxygen consumption at maximum in State 3 is:")
+    # print(valsS3["JO2"])
+    # print("\n")
+    # print("The Respiratory Control Ratio is:")
+    # print(RCR)
+    # print("\n")
+    # print("The P/O ratio is:")
+    # print(PO)
     return (RCR, PO)
 
 #main()

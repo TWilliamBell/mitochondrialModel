@@ -59,9 +59,6 @@ def po(t, y, pW):
     a[pc.pcIS.iATP_c] = 0
     return a
 
-pc.params[35] = pc.params[35]
-pc.params[39] = pc.params[39]
-
 def main(pW = 1.): ## Runs differential equation for time span and outputs results to
     ## a csv file and a feather file.
 
@@ -128,6 +125,12 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
     ## What follows is for the in vitro case
 
     ## State 2 Respiration
+
+    print(pW)
+    print(pc.params[34])
+    print(pc.params[37])
+    print(pc.params[38])
+    print(pc.pcPC.k_O2)
 
     ## These inital conditions are used for measurements in Edwards et al
     ## 2020 based on bath conditions in Schiffer et al 2018
@@ -242,7 +245,7 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
                                     "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                     "PCr_c", "AMP_c"])
     resultsPO.to_csv("../results/resultsState2POKHTest.csv")
-    print("Done State 2 calculations.")
+    #print("Done State 2 calculations.")
 
     ## State 3 Respiration
     s2newIC = np.delete(results.tail(1).to_numpy()[0], [0])
@@ -277,7 +280,7 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
     results.to_csv("../results/resultsState3KHTest.csv")
-    print("Done State 3 calculations.")
+    #print("Done State 3 calculations.")
 
     ## Leak Respiration
 
@@ -313,7 +316,7 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
     results.to_csv("../results/resultsLeakRespKHTest.csv")
-    print("Done Leak Respiration calculations.")
+    #print("Done Leak Respiration calculations.")
 
     ## P/O ratio at half-maximum respiration
     s2newICPO = np.delete(resultsPO.tail(1).to_numpy()[0], [0])
@@ -349,7 +352,7 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
     results.to_csv("../results/resultsPOKHTest.csv")
-    print("Done P/O ratio calculations.")
+    #print("Done P/O ratio calculations.")
 
 
 #start = time.time()
