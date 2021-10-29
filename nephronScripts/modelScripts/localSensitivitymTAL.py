@@ -90,7 +90,7 @@ def main():
                                                           pc.pcPC.Qtot, pc.pcPC.NADtotmTAL,
                                                           pc.pcPC.FADtot, pc.pcPC.k_O2/2.0,
                                                           pc.pcPC.k_mADP],
-                               [1., 4.39e-4, 0.]))
+                               [1., 1.70e-3, 0.]))
     tops = 1.005*defaults
     bottoms = 0.995*defaults
 

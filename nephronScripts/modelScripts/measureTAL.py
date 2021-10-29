@@ -5,7 +5,7 @@ import pandas as pd
 import equations
 import pc
 
-J_AtC = 4.39e-4 ## Used by Edwards et al.
+J_AtC = 1.70e-3
 StateType = 1
 
 #pc.pcPC.k_O2 = pc.pcPC.k_O2/2.0

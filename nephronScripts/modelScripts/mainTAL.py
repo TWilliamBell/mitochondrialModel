@@ -1,13 +1,11 @@
 import scipy.integrate as sci
-#import feather
 import numpy as np
 import pandas as pd
-#import time
 
 import equations
 import pc
 
-J_AtC = 4.39e-4
+J_AtC = 1.70e-3
 ExpType = 1 ## in vivo = Pyruvate in cytoplasm clamped, cytoplasm has specified water
 ## volume
 StateType = 1 ## Default, remaining Pyruvate concentrations not clamped
@@ -53,5 +51,5 @@ a = main()
 #end = time.time()
 #print(end-start)
 
-finalConditions = np.array(a.tail(1)) ## Remove the first element before use
+finalConditions = np.array(a.tail(1)["ATP_c"]) ## Remove the first element before use
 print(finalConditions)

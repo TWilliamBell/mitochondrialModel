@@ -26,7 +26,7 @@ def main(): ## Runs differential equation for time span and outputs results to
         pc.pcPC.NADtot = nadtotnorm
         pc.ics[pc.pcIS.iO2_x] = o2norm
         pc.params[38] = hleaknorm
-        J_AtC = 0.000439
+        J_AtC = 1.70e-3
 
         ## Conditions to reproduce (for the altered model) Table 3's observations from Edwards et al
         if i == 0:

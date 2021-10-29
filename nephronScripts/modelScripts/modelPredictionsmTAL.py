@@ -6,7 +6,7 @@ import pandas as pd
 import equations
 import pc
 
-J_AtC = 4.39e-4
+J_AtC = 1.70e-3
 ExpType = 1 ## in vivo = Pyruvate in cytoplasm clamped, cytoplasm has specified water
 ## volume
 StateType = 1 ## Default, remaining Pyruvate concentrations not clamped
@@ -30,8 +30,8 @@ def main(): ## Runs differential equation for time span and outputs results to
                                       pc.pcPC.NADtotmTAL/2.0)
         pc.params[38] = hleaknorm
         pW = 1.0
-        J_AtC = 4.39e-4
-
+        J_AtC = 1.70e-3
+        print(i)
         ## Conditions to reproduce (for the altered model) Table 3's observations from Edwards et al
         if i == 0:
             pc.ics[pc.pcIS.iO2_x] = o2norm*(20.0/10.0)
@@ -40,11 +40,11 @@ def main(): ## Runs differential equation for time span and outputs results to
         if i == 2:
             pc.ics[pc.pcIS.iO2_x] = o2norm*(2.5/10.0)
         if i == 3:
-            J_AtC = 1.2e-4
-        if i == 4:
             J_AtC = 0.5*J_AtC
+        if i == 4:
+            J_AtC = 1.0e-3
         if i == 5:
-            J_AtC = 1.4e-3
+            J_AtC = 2.2e-3
         if i == 6:
             pc.ics[pc.pcIS.iH_c] = 10**-7.4
         if i == 7:

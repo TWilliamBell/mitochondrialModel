@@ -9,7 +9,7 @@ from classDefs import timeError
 import equations
 import pc
 
-J_AtC = 4.39e-4 ## Used by Edwards et al.
+J_AtC = 1.70e-3
 ExpType = 1 ## in vivo = Pyruvate in cytoplasm clamped, cytoplasm has specified water
 ## volume
 StateType = 1 ## Default, remaining Pyruvate concentrations not clamped
