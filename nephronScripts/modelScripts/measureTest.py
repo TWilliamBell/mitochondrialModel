@@ -70,11 +70,11 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
 
 
     resultsKH = sci.solve_ivp(fun = lambda t, y: kh(t, y, pW = pW),
-                              t_span = (0, 10),
-                              y0 = pc.ics,
+                              t_span = (0, 20),
+                              y0 = pc.finalConditions,
                               method = "LSODA",
-                              atol = 1e-8,
-                              rtol = 1e-8)
+                              atol = 1e-9,
+                              rtol = 1e-9)
 
     resultsKH = np.concatenate((np.array([resultsKH.t]), resultsKH.y)).transpose()
     resultsKH = pd.DataFrame(resultsKH,
@@ -97,11 +97,11 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
     pc.params[37] = pc.params[37] / 20.0
 
     resultsKHbase = sci.solve_ivp(fun = lambda t, y: kh(t, y, pW = pW),
-                              t_span = (0, 10),
-                              y0 = pc.ics,
+                              t_span = (0, 20),
+                              y0 = pc.finalConditions,
                               method = "LSODA",
-                              atol = 1e-8,
-                              rtol = 1e-8)
+                              atol = 1e-9,
+                              rtol = 1e-9)
 
     resultsKHbase = np.concatenate((np.array([resultsKHbase.t]), resultsKHbase.y)).transpose()
     resultsKHbase = pd.DataFrame(resultsKHbase,
