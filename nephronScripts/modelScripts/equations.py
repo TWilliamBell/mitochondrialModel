@@ -418,7 +418,6 @@ def conservationEqs1(x, J_AtC, ExpType = 1, StateType = 1,
     provides an adaptive response of ATP consumption to
     low ATP levels."""
 
-
     if timeStart == 1:
         timeStart = time.time()
 
@@ -830,3 +829,17 @@ def conservationEqs1(x, J_AtC, ExpType = 1, StateType = 1,
     f[pcIS.iK_x] = dK_xdt
 
     return f
+
+def conservationEqsmTAL(x, J_AtC, ExpType = 1, StateType = 1,
+                    w = [1., 1., 1., 1.], timeStart = 1,
+                    capacitanceWeight = 1.,
+                    potassiumW = 1.,
+                    glyc = 0.0, DCA = 1., cana = 1.,
+                    params = paramsmTAL):
+    return conservationEqs1(x = x, J_AtC = J_AtC, ExpType = ExpType,
+                            StateType = StateType,
+                            w = w, timeStart = timeStart,
+                            capacitanceWeight = capacitanceWeight,
+                            potassiumW = potassiumW, tubule = "mTAL",
+                            glyc = glyc, DCA = DCA, cana = cana,
+                            params = paramsmTAL)

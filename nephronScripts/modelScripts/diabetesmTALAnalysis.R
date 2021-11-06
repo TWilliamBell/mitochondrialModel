@@ -137,9 +137,35 @@ ggplot(diabetes, aes(x = Cred_i/2.148e-3)) +
         legend.text = element_text(size = 18), axis.text = element_text(size = 18))
 dev.off()
 
-# ggplot(diabetes, aes(x = NADH_x/0.824e-4)) +
-#   geom_histogram() +
-#   xlab("NADH/NAD+ Redox State") +
-#   ylab("Frequency") +
-#   xlim(c(0, 1)) +
-#   geom_vline(xintercept = diabetes[348, ]$NADH_x/0.824e-4, col = "red")
+ggplot(diabetes, aes(x = NADH_x/0.824e-4)) +
+  geom_histogram() +
+  xlab("NADH/NAD+ Redox State") +
+  ylab("Frequency") +
+  xlim(c(0, 1)) +
+  geom_vline(xintercept = diabetes[348, ]$NADH_x/0.824e-4, col = "red")
+
+
+
+uncoupling <- paste0("../results/", dir("../results")[grepl("MiceUncouplingmTAL", 
+                                                      dir("../results"))])
+newCases <- list()
+
+for (i in seq_along(uncoupling)) {
+  newCases[[i]] <- data.table::fread(uncoupling[i])
+}
+
+#atp <- function(x) tail(x$ATP_c, 1)
+#newCasesATP <- sapply(newCases, atp)
+#hist(newCasesATP/0.00258)
+
+cyt <- function(x) tail(x$Cred_i, 1)
+newCasesCytC <- sapply(newCases, cyt)
+hist(newCasesCytC/2.148e-3, xlim = c(0, 1))
+
+coq <- function(x) tail(x$QH2_x, 1)
+newCasesCOQ <- sapply(newCases, coq)
+hist(newCasesCOQ/0.00178)
+
+nadh <- function(x) tail(x$NADH_x, 1)
+newCasesNADH <- sapply(newCases, nadh)
+hist(newCasesNADH/0.824e-4)

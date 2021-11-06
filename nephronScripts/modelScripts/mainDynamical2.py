@@ -22,7 +22,6 @@ def f(t, y): ## Differential equations, with optional arguments specified
 
 def main(): ## Runs differential equation for time span and outputs results to
     ## a csv file and a feather file.
-
     results = sci.solve_ivp(fun = f,
                             t_span = (0, 100000),
                             y0 = pc.finalConditions,
@@ -45,7 +44,6 @@ def main(): ## Runs differential equation for time span and outputs results to
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
     results.to_csv("../results/resultsATP.csv")
-    feather.write_dataframe(results, "../results/resultsATP.feather")
     return results
 
 #start = time.time()
@@ -56,5 +54,3 @@ a = main()
 print(a)
 
 finalConditions = np.delete(np.array(a.tail(1)), [0]) ## Remove the first element before use
-
-print(finalConditions)

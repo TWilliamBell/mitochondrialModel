@@ -24,6 +24,7 @@ mitDis <- dplyr::inner_join(iterProd, mitDis)
 
 colnames(drugSimTails)[1] <- "k"
 joinedTable <- dplyr::inner_join(drugSimParam, drugSimTails, by = 'k')
+mitDis$V1 <- NULL
 joinedTable <- rbind(joinedTable, mitDis)
 
 joinedTable <- joinedTable[!duplicated(joinedTable[2:8]), ]
@@ -34,14 +35,8 @@ O2Only <- joinedTable[joinedTable$CI == 1 & joinedTable$CIII == 1
                        & joinedTable$ATPSynthase == 1 
                        & joinedTable$XHle == 1 
                        & joinedTable$glycolysisLevel == 0, ]
+## Not very impactful
 
-#O2dPsi <- c(O2Only$dPsi)
-#O2ATP <- c(O2Only$ATP_c)
-
-## The only variable that significantly moved the needle for
-## ATP_c in any simulation case
-#O2 <- joinedTable[joinedTable$O2Level > 0.25, ]$ATP_c
-#hist(O2)
 
 ## Hydrogen leak
 
@@ -50,16 +45,16 @@ XHleOnly <- joinedTable[joinedTable$CI == 1 & joinedTable$CIII == 1
                       & joinedTable$ATPSynthase == 1 
                       & joinedTable$glycolysisLevel == 0
                       & joinedTable$O2Level == 1, ]
-
+## Not very impactful on ATPc
 uncouplingdPsi <- XHleOnly$dPsi
 
-pdf("./dataVis/uncouplingmTAL.pdf")
+pdf("../dataVis/uncouplingmTAL.pdf")
 par(cex.lab = 1.5, cex.axis = 1.5)
 plot(uncouplingdPsi, cex = 0.01, xlim = c(0.5, 4.5), 
-     ylim = c(160, 166),
+     ylim = c(155, 165),
      xaxt = "n", xlab = "Fold Change in Hydrogen Leak", 
      ylab = "Electrical Potential Gradient (mV)")
-rect(1:4-0.5, rep(160,4)-0.24, 1:4+0.5, uncouplingdPsi, 
+rect(1:4-0.5, rep(155,4)-0.5, 1:4+0.5, uncouplingdPsi, 
      col = "springgreen")
 axis(1, at = 1:4, labels = paste0(XHleOnly$XHle, "x"))
 dev.off()
@@ -77,28 +72,47 @@ p <- ggplot(container, aes(x = dPsi)) +
   ylab("Frequency") +
   theme(axis.title = element_text(size = 18), legend.title = element_text(size = 18),
         legend.text = element_text(size = 18), axis.text = element_text(size = 18))
-p$labels$fill <- "Oxygen Level"
+p$labels$fill <- "Relative \nComplex IV \nActivity"
 p
 
 dev.off()
 
-# pdf("./dataVis/atpleakOXPHOSO2mTALmultivar.pdf")
-# container <- joinedTable
-# container$O2Level <- as.factor(joinedTable$O2Level)
-# ggplot(container, aes(x = ATP_c*1000)) +
-#   geom_histogram(aes(color = O2Level, fill = O2Level)) +
-#   xlab("ATP_c (mM)") +
-#   ylab("Frequency")
-# dev.off()
+pdf("../dataVis/atpleakOXPHOSO2mTALmultivar.pdf")
+container <- joinedTable
+container$O2Level <- as.factor(joinedTable$O2Level)
+p <- ggplot(container, aes(x = ATP_c*1000)) +
+  geom_histogram(aes(fill = O2Level)) +
+  xlab("Cytosolic ATP (mM)") +
+  ylab("Frequency")
+p$labels$fill <- "Relative \nComplex IV \nActivity"
+p +
+  theme(axis.title = element_text(size = 18), legend.title = element_text(size = 18),
+        legend.text = element_text(size = 18), axis.text = element_text(size = 18))
+dev.off()
 
 container <- joinedTable[joinedTable$glycolysisLevel == 0 & 
                            joinedTable$O2Level == 1 &
                            joinedTable$XHle == 1,]
-container$CIII <- as.factor(container$CIII)
+container$CIV <- as.factor(container$CIV)
 ggplot(container, aes(x = dPsi)) +
-  geom_histogram(aes(color = CIII, fill = CIII)) +
+  geom_histogram(aes(color = CIV, fill = CIV)) +
   xlab("dPsi (mV)") +
   ylab("Frequency")
+
+pdf("../dataVis/atpCIVmTAL.pdf")
+par(cex.lab = 1.5, cex.axis = 1.5)
+container$O2Level <- as.factor(container$O2Level)
+p <- ggplot(container, aes(x = ATP_c*1000)) +
+  geom_histogram(aes(fill = O2Level)) +
+  xlab("Cytosolic ATP (mM)") +
+  ylab("Frequency") + 
+  theme(axis.title = element_text(size = 18), 
+        legend.title = element_text(size = 18),
+        legend.text = element_text(size = 18), 
+        axis.text = element_text(size = 18))
+p$labels$fill <- "Oxygen\nTension"
+p
+dev.off()
 
 pdf("../dataVis/atpHist.pdf")
 par(cex.lab = 1.5, cex.axis = 1.5)

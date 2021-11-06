@@ -21,7 +21,7 @@ def f(t, y, pW, J_AtC, glyc, params):
                               params = params)
 
 normpcPC = pc.pcPC
-normParam = pc.params
+normParam = pc.paramsmTAL
 
 
 def modelPredictions(params):
@@ -30,7 +30,7 @@ def modelPredictions(params):
            np.array([24]), np.linspace(30, 40, 11)), dtype = np.int64,
            casting = 'unsafe')
     ## Change pc.params as necessary
-    newParams = np.array(pc.params)
+    newParams = np.array(pc.paramsmTAL)
     newParams[ran] = params[0:len(ran)]
     #pc.params = list(newParams)
     ## Change pcPC
@@ -90,7 +90,7 @@ def main():
                                                           pc.pcPC.Qtot, pc.pcPC.NADtot,
                                                           pc.pcPC.FADtot, pc.pcPC.k_O2,
                                                           pc.pcPC.k_mADP],
-                                                        [1., 1.256e-3, 2.3e-4]))
+                                                        [1., 1.7e-3, 2.3e-4]))
     bottoms = defaults*0.25
     bottoms[4] = defaults[4]*0.4
     tops = defaults*2.5

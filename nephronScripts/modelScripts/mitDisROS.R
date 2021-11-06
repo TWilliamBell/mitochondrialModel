@@ -1,3 +1,7 @@
+if (!grepl("mitochondrialModel/modelScripts", getwd())) {
+  setwd("./modelScripts")
+}
+
 mitDis <- list()
 
 trueVec <- rep(TRUE, 256)

@@ -34,7 +34,7 @@ def optimFn(optParam):
     khmTAL = optParam[1]
     ko2pt = optParam[2] ## Done - need to test global
     ko2mTAL = optParam[3]
-    hleakpt = optParam[4] ## Not done
+    hleakpt = optParam[4]
     hleakmTAL = optParam[5]
     kleakpt = optParam[6] ## Done - need to test args
     kleakmTAL = optParam[7]
@@ -68,7 +68,7 @@ def optimFn(optParam):
 
     pc.pcPC.k_O2 = 1.2e-4*ko2mTAL
 
-    pc.params[37] = khmTAL * (4.7580e+06 / 15) * 20
+    pc.params[37] = khmTAL * (4.7580e+06 / 15)
     pc.params[38] = 347.4 * hleakmTAL
     pc.params[34] = 0.00675 * antmTAL
 
@@ -78,7 +78,7 @@ def optimFn(optParam):
     mtalVals = ctal.main()
     print("Done mTAL calculations.")
     vals = ptVals + mtalVals
-    #print(vals)
+    print(vals)
     costVal = costFn(vals)
     print(costVal)
     return costVal
@@ -101,6 +101,12 @@ def main():
     a = pd.DataFrame(results.x)
     a.to_csv("../results/optimizationOutput.csv")
 
-main()
+#main()
 
-#optimFn([1., 1., 1., 0.5, 1., 1., 1., 1., 1.00000001, 1.])
+optimFn([1., 1., 1., 0.5, 1.55, 1., 1., 1., 1., 1.])
+
+#optimFn([1., 1., 1., 0.5, 1., 1., 1., 1., 1., 1.]) ## Current values
+
+#optimFn([1.00035857, 1.00035857, 1.00035857, 0.50053786,
+#         1.00035857, 1.00035857, 1.00035857, 1.00035857,
+#         1.00035857, 1.00035857])

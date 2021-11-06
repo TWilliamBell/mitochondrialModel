@@ -18,12 +18,10 @@ def f(t, y, O2baseline, O2stress): ## Differential equations, with optional argu
         y[pc.pcIS.iO2_x] = O2stress
     elif t > 20000 or t < 10000:
         y[pc.pcIS.iO2_x] = O2baseline
-    return equations.conservationEqs1(y, J_AtC = J_AtC,
+    return equations.conservationEqsmTAL(y, J_AtC = J_AtC,
                               ExpType = ExpType,
-                              StateType = StateType,
-                              tubule = "mTAL")
+                              StateType = StateType)
 
-pc.pcPC.k_O2 = pc.pcPC.k_O2 / 2.0
 
 def main(): ## Runs differential equation for time span and outputs results to
     ## a csv file and a feather file.

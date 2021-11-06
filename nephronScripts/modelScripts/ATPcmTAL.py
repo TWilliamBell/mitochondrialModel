@@ -48,7 +48,9 @@ def main():
     for i in range(len(ending)):
         male.append((male4[i]+male5[i])*convert_male)
         female.append((female4[i]+female5[i])*convert_female)
-
+    print(male)
+    print(np.sum(male[0]))
+    return male
     maximum = -1.0
     minimum = 100000.0
 

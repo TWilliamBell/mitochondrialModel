@@ -1,6 +1,6 @@
 drugSim <- list()
 
-files <- dir("./results")
+files <- dir("../results")
 
 files <- files[grep("BroadATP", files)]
 
@@ -10,11 +10,11 @@ nums <- as.numeric(nums)
 nums[nums == 1e5] <- NA_real_
 
 tails <- list()
-files <- paste0("./results/", files)
+files <- paste0("../results/", files)
 for (i in files) {
   tails[[i]] <- as.data.frame(tail(data.table::fread(i), 1))
 }
 
 tailsOrderly <- as.data.frame(cbind(nums, do.call(rbind, tails)))
 
-write.csv(tailsOrderly, file = "./results/tailsBroadSimmTAL.csv")
+write.csv(tailsOrderly, file = "../results/tailsBroadSimmTAL.csv")

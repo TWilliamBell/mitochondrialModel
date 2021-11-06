@@ -7,11 +7,11 @@ import feather
 import fluxesmTAL as fl
 import pc
 
-J_AtC = 4.39e-4
+J_AtC = 1.70e-3
 ExpType = 3 ## Diabetic
 StateType = 1 ## Default, remaining Pyruvate concentrations not clamped
 
-hleaknorm = pc.params[38]
+hleaknorm = pc.paramsmTAL[38]
 pc.pcPC.k_O2 = pc.pcPC.k_O2 / 2.0
 pc.pcPC.Ctot = pc.pcPC.Ctot*0.6
 
@@ -35,7 +35,7 @@ def main():
         pc.params[38] = list(j)[0]*hleaknorm
         f = fl.fluxesmTAL(y,
                       ExpType = ExpType,
-                      param = pc.params,
+                      param = pc.paramsmTAL,
                       w = w)
         fs.append(list(f))
 

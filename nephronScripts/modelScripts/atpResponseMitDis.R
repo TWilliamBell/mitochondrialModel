@@ -1,4 +1,6 @@
-#setwd("./results")
+if (!grepl("mitochondrialModel/modelScripts", getwd())) {
+  setwd("./modelScripts")
+}
 
 mitDis <- list()
 
@@ -41,7 +43,7 @@ for (i in trueInd) {
 }
 
 ## Consider ATP concentration
-ATP <- sapply(tails, function(x) if (is.null(x)) {return(NA)} else {unlist(x)[37]})
+ATP <- sapply(tails, function(x) if (is.null(x)) {return(NA)} else {unlist(x)[37]})*1000
 
 ## Complex I
 pdf("../dataVis/complexIATPunivar.pdf")
@@ -49,7 +51,7 @@ par(cex.lab = 1.5)
 plot(c(0.25, 0.5, 0.75, 1), ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
                                   iterProd[ , 1] != 1.0) & univar],
      ylim = c(0, max(ATP, na.rm = T)), ylab = "ATP Concentration",
-     xlim = c(0.2, 1.1), xlab = "Proportion of Typical Activity",
+     xlim = c(0.2, 1.1), xlab = "Fraction of Typical Activity",
      cex = 0.1, main = "Complex I")
 rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(0, 4), c(0.25, 0.5, 0.75, 1)+0.05, 
      ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |iterProd[ , 1] != 1.0) & univar],
@@ -63,7 +65,7 @@ par(cex.lab = 1.5)
 plot(c(0.25, 0.5, 0.75, 1), ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
                                    iterProd[ , 2] != 1.0) & univar],
      ylim = c(0, max(ATP, na.rm = T)), ylab = "ATP Concentration",
-     xlim = c(0.1, 1.1), xlab = "Proportion of Typical Activity", 
+     xlim = c(0.1, 1.1), xlab = "Fraction of Typical Activity", 
      cex = 0.1,
      main = "Complex III")
 rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(0, 4), c(0.25, 0.5, 0.75, 1)+0.05, 
@@ -78,7 +80,7 @@ par(cex.lab = 1.5)
 plot(c(0.25, 0.5, 0.75, 1), ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
                                    iterProd[ , 3] != 1.0) & univar],
      ylim = c(0, max(ATP, na.rm = T)), ylab = "ATP Concentration",
-     xlim = c(0.1, 1.1), xlab = "Proportion of Typical Activity", cex = 0.1,
+     xlim = c(0.1, 1.1), xlab = "Fraction of Typical Activity", cex = 0.1,
      main = "Complex IV")
 rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(0, 4), c(0.25, 0.5, 0.75, 1)+0.05, 
      ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 3] != 1.0) & univar],
@@ -92,7 +94,7 @@ par(cex.lab = 1.5)
 plot(c(0.25, 0.5, 0.75, 1), ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
                                    iterProd[ , 4] != 1.0) & univar],
      ylim = c(0, max(ATP, na.rm = T)), ylab = "ATP Concentration",
-     xlim = c(0.1, 1.1), xlab = "Proportion of Typical Activity",
+     xlim = c(0.1, 1.1), xlab = "Fraction of Typical Activity",
      cex = 0.1, main = "ATP Synthase")
 rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(0, 4), c(0.25, 0.5, 0.75, 1)+0.05, 
      ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 4] != 1.0) & univar],
@@ -105,44 +107,55 @@ par(mfrow = c(2, 2), cex.lab = 1.5, cex.main = 1.5)
 
 plot(c(0.25, 0.5, 0.75, 1), ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
                                    iterProd[ , 1] != 1.0) & univar],
-     ylim = c(0, max(ATP, na.rm = T)), ylab = "[ATP]_c (M)",
-     xlim = c(0.2, 1.1), xlab = "Proportion of Typical Activity",
-     cex = 0.1, main = "Complex I")
-rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(0, 4)-0.0001, c(0.25, 0.5, 0.75, 1)+0.05, 
-     ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |iterProd[ , 1] != 1.0) & univar],
-     col = "springgreen")
+     ylim = c(0, max(ATP, na.rm = T)), ylab = "Cytosolic ATP (mM)",
+     xlim = c(0.2, 1.), xlab = "Fraction of Typical Activity",
+     col = "blue", main = "Complex I")
+CI <- splinefun(c(0.25, 0.5, 0.75, 1), 
+                ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
+                                              iterProd[ , 1] != 1.0) & univar])
+curve(CI, from = 0.2, to = 1, add = T, col = "blue")
+#rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(0, 4)-0.0001, c(0.25, 0.5, 0.75, 1)+0.05, 
+#     ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |iterProd[ , 1] != 1.0) & univar],
+#     col = "springgreen")
 abline(a = ATP[which.min(ATP)], b = 0, col = "red")
 
 plot(c(0.25, 0.5, 0.75, 1), ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
                                    iterProd[ , 2] != 1.0) & univar],
-     ylim = c(0, max(ATP, na.rm = T)), ylab = "[ATP]_c (M)",
-     xlim = c(0.1, 1.1), xlab = "Proportion of Typical Activity", 
-     cex = 0.1,
-     main = "Complex III")
-rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(0, 4)-0.0001, c(0.25, 0.5, 0.75, 1)+0.05, 
-     ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 2] != 1.0) & univar],
-     col = "springgreen")
+     ylim = c(0, max(ATP, na.rm = T)), ylab = "Cytosolic ATP (mM)",
+     xlim = c(0.2, 1.), xlab = "Fraction of Typical Activity", 
+     col = "blue", main = "Complex III")
+#rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(0, 4)-0.0001, c(0.25, 0.5, 0.75, 1)+0.05, 
+#     ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 2] != 1.0) & univar],
+#     col = "springgreen")
+CIII <- splinefun(c(0.25, 0.5, 0.75, 1), ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
+                                                iterProd[ , 2] != 1.0) & univar])
+curve(CIII, from = 0.2, to = 1, add = T, col = "blue")
 abline(a = ATP[which.min(ATP)], b = 0, col = "red")
 
 plot(c(0.25, 0.5, 0.75, 1), ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
                                    iterProd[ , 3] != 1.0) & univar],
-     ylim = c(0, max(ATP, na.rm = T)), ylab = "[ATP]_c (M)",
-     xlim = c(0.1, 1.1), xlab = "Proportion of Typical Activity", 
-     cex = 0.1,
-     main = "Complex IV")
-rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(0, 4)-0.0001, c(0.25, 0.5, 0.75, 1)+0.05, 
-     ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 3] != 1.0) & univar],
-     col = "springgreen")
+     ylim = c(0, max(ATP, na.rm = T)), ylab = "Cytosolic ATP (mM)",
+     xlim = c(0.2, 1.), xlab = "Fraction of Typical Activity", 
+     col = "blue", main = "Complex IV")
+#rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(0, 4)-0.0001, c(0.25, 0.5, 0.75, 1)+0.05, 
+#     ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 3] != 1.0) & univar],
+#     col = "springgreen")
+CIV <- splinefun(c(0.25, 0.5, 0.75, 1), ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
+                                               iterProd[ , 3] != 1.0) & univar])
+curve(CIV, from = 0.2, to = 1., add = T, col = "blue")
 abline(a = ATP[which.min(ATP)], b = 0, col = "red")
 
 plot(c(0.25, 0.5, 0.75, 1), ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
                                    iterProd[ , 4] != 1.0) & univar],
-     ylim = c(0, max(ATP, na.rm = T)), ylab = "[ATP]_c (M)",
-     xlim = c(0.1, 1.1), xlab = "Proportion of Typical Activity",
-     cex = 0.1, main = "ATP Synthase")
-rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(0, 4)-0.0001, c(0.25, 0.5, 0.75, 1)+0.05, 
-     ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 4] != 1.0) & univar],
-     col = "springgreen")
+     ylim = c(0, max(ATP, na.rm = T)), ylab = "Cytosolic ATP (mM)",
+     xlim = c(0.2, 1.), xlab = "Fraction of Typical Activity",
+     col = "blue", main = "ATP Synthase")
+#rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(0, 4)-0.0001, c(0.25, 0.5, 0.75, 1)+0.05, 
+#     ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 4] != 1.0) & univar],
+#     col = "springgreen")
+ATPcurve <- splinefun(c(0.25, 0.5, 0.75, 1), ATP[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
+                                                    iterProd[ , 4] != 1.0) & univar])
+curve(ATPcurve, from = 0.2, to = 1, add = T, col = "blue")
 abline(a = ATP[which.min(ATP)], b = 0, col = "red")
 
 dev.off()
@@ -158,7 +171,7 @@ par(cex.lab = 1.5)
 plot(c(0.25, 0.5, 0.75, 1), dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
                                    iterProd[ , 1] != 1.0) & univar],
      ylim = c(150, max(dPsi, na.rm = T)), ylab = "Electrical Potential Gradient",
-     xlim = c(0.1, 1.1), xlab = "Proportion of Typical Activity",
+     xlim = c(0.1, 1.1), xlab = "Fraction of Typical Activity",
      cex = 0.1, main = "Complex I")
 rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(149.57, 4), c(0.25, 0.5, 0.75, 1)+0.05, 
      dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 1] != 1.0) & univar],
@@ -173,7 +186,7 @@ par(cex.lab = 1.5)
 plot(c(0.5, 1), dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
             iterProd[ , 1] == 0.5) & univar],
      ylim = c(155, max(dPsi, na.rm = T)), ylab = "Electrical Potential Gradient",
-     xlim = c(0.1, 1.1), xlab = "Proportion of Typical Activity",
+     xlim = c(0.1, 1.1), xlab = "Fraction of Typical Activity",
      cex = 0.1, main = "Ifosfamide")
 rect(c(0.5, 1)-0.05, rep(154.77, 2), c(0.5, 1)+0.05, 
      dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 1] == 0.5) & univar],
@@ -186,7 +199,7 @@ par(cex.lab = 1.5)
 plot(c(0.25, 0.5, 0.75, 1), dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
                                    iterProd[ , 2] != 1.0) & univar],
      ylim = c(150, max(dPsi, na.rm = T)), ylab = "Electrical Potential Gradient",
-     xlim = c(0.1, 1.1), xlab = "Proportion of Typical Activity", cex = 0.1,
+     xlim = c(0.1, 1.1), xlab = "Fraction of Typical Activity", cex = 0.1,
      main = "Complex III")
 rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(149.57, 4), c(0.25, 0.5, 0.75, 1)+0.05, 
      dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 2] != 1.0) & univar],
@@ -200,7 +213,7 @@ par(cex.lab = 1.5)
 plot(c(0.25, 0.5, 0.75, 1), dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
                                    iterProd[ , 3] != 1.0) & univar],
      ylim = c(150, max(dPsi, na.rm = T)), ylab = "Electrical Potential Gradient",
-     xlim = c(0.1, 1.1), xlab = "Proportion of Typical Activity", cex = 0.1,
+     xlim = c(0.1, 1.1), xlab = "Fraction of Typical Activity", cex = 0.1,
      main = "Complex IV")
 rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(149.57, 4), c(0.25, 0.5, 0.75, 1)+0.05, 
      dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 3] != 1.0) & univar],
@@ -214,7 +227,7 @@ par(cex.lab = 1.5)
 plot(c(0.25, 0.5, 0.75, 1), dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
                                    iterProd[ , 4] != 1.0) & univar],
      ylim = c(150, max(dPsi, na.rm = T)), ylab = "Electrical Potential Gradient",
-     xlim = c(0.1, 1.1), xlab = "Proportion of Typical Activity",
+     xlim = c(0.1, 1.1), xlab = "Fraction of Typical Activity",
      cex = 0.1, main = "ATP Synthase")
 rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(149.57, 4), c(0.25, 0.5, 0.75, 1)+0.05, 
      dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 4] != 1.0) & univar],
@@ -228,8 +241,8 @@ par(mfrow = c(2,2), cex.lab = 1.5)
 plot(c(0.25, 0.5, 0.75, 1), dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
                                     iterProd[ , 1] != 1.0) & univar],
      ylim = c(150, max(dPsi, na.rm = T)), ylab = "Electrical Potential Gradient",
-     xlim = c(0.1, 1.1), xlab = "Proportion of Typical Activity",
-     cex = 0.1, main = "Complex I")
+     xlim = c(0.1, 1.1), xlab = "Fraction of Typical Activity",
+     cex = 0.1, col = "blue", main = "Complex I")
 rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(149.57, 4), c(0.25, 0.5, 0.75, 1)+0.05, 
      dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 1] != 1.0) & univar],
      col = "springgreen")
@@ -238,8 +251,8 @@ abline(a = dPsi[which.min(dPsi)], b = 0, col = "red")
 plot(c(0.25, 0.5, 0.75, 1), dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
                                     iterProd[ , 2] != 1.0) & univar],
      ylim = c(150, max(dPsi, na.rm = T)), ylab = "Electrical Potential Gradient",
-     xlim = c(0.1, 1.1), xlab = "Proportion of Typical Activity", cex = 0.1,
-     main = "Complex III")
+     xlim = c(0.1, 1.1), xlab = "Fraction of Typical Activity", cex = 0.1,
+     col = "blue", main = "Complex III")
 rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(149.57, 4), c(0.25, 0.5, 0.75, 1)+0.05, 
      dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 2] != 1.0) & univar],
      col = "springgreen")
@@ -248,8 +261,8 @@ abline(a = dPsi[which.min(dPsi)], b = 0, col = "red")
 plot(c(0.25, 0.5, 0.75, 1), dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
                                     iterProd[ , 3] != 1.0) & univar],
      ylim = c(150, max(dPsi, na.rm = T)), ylab = "Electrical Potential Gradient",
-     xlim = c(0.1, 1.1), xlab = "Proportion of Typical Activity", cex = 0.1,
-     main = "Complex IV")
+     xlim = c(0.1, 1.1), xlab = "Fraction of Typical Activity", cex = 0.1,
+     col = "blue", main = "Complex IV")
 rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(149.57, 4), c(0.25, 0.5, 0.75, 1)+0.05, 
      dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 3] != 1.0) & univar],
      col = "springgreen")
@@ -258,8 +271,8 @@ abline(a = dPsi[which.min(dPsi)], b = 0, col = "red")
 plot(c(0.25, 0.5, 0.75, 1), dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 |
                                     iterProd[ , 4] != 1.0) & univar],
      ylim = c(150, max(dPsi, na.rm = T)), ylab = "Electrical Potential Gradient",
-     xlim = c(0.1, 1.1), xlab = "Proportion of Typical Activity",
-     cex = 0.1, main = "ATP Synthase")
+     xlim = c(0.1, 1.1), xlab = "Fraction of Typical Activity",
+     cex = 0.1, col = "blue", main = "ATP Synthase")
 rect(c(0.25, 0.5, 0.75, 1)-0.05, rep(149.57, 4), c(0.25, 0.5, 0.75, 1)+0.05, 
      dPsi[(matrixStats::rowProds(as.matrix(iterProd)) == 1.0 | iterProd[ , 4] != 1.0) & univar],
      col = "springgreen")
@@ -287,7 +300,7 @@ container$CIII <- as.factor(container$CIII)
 pdf("../dataVis/atpComplexIIImultivar.pdf")
 ggplot(container, aes(x = ATP_c)) +
   geom_histogram(aes(color = CIII, fill = CIII), bins = 24) +
-  xlab("[ATP]_c (M)") +
+  xlab("Cytosolic ATP (mM)") +
   ylab("Frequency") +
   theme(legend.text = element_text(size = 18), axis.title = element_text(size = 18),
         legend.title = element_text(size = 18), axis.text = element_text(size = 18))

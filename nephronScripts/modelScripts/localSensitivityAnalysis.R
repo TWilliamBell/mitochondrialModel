@@ -172,31 +172,33 @@ dirLSPT <- dirLS
 # To run this code: 1. Source localSensitivityAnalysis.R,
 # 2. Source localSensitivityAnalysismTAL.R,
 # 3. Then run the commented code
-
-# dirLSsmallPT <- dirLSPT[c(2, 9, 10, 27, 35), colSums(abs(dirLSPT[ 
-#   c(2, 9, 10, 27, 35), ])) > 0.5 | colSums(abs(dirLS[ 
+# 
+# dirLSsmallPT <- dirLSPT[c(2, 9, 10, 27, 35), colSums(abs(dirLSPT[
+#   c(2, 9, 10, 27, 35), ])) > 0.5 | colSums(abs(dirLS[
 #     c(2, 9, 10, 27, 35), ])) > 0.5]
-# dirLSsmallTAL <- dirLS[c(2, 9, 10, 27, 35), colSums(abs(dirLSPT[ 
-#   c(2, 9, 10, 27, 35), ])) > 0.5 | colSums(abs(dirLS[ 
+# dirLSsmallTAL <- dirLS[c(2, 9, 10, 27, 35), colSums(abs(dirLSPT[
+#   c(2, 9, 10, 27, 35), ])) > 0.5 | colSums(abs(dirLS[
 #     c(2, 9, 10, 27, 35), ])) > 0.5]
 # 
-# colnames(dirLSsmallTAL) <- colnames(dirLSsmallPT) <- c("PDH Activity", "AKGD Activity", 
+# colnames(dirLSsmallTAL) <- colnames(dirLSsmallPT) <- c("PDH Activity", "AKGD Activity",
+#                           "Complex II Activity",
 #                           "Complex III Activity", "Complex IV Activity",
 #                           "ANT Activity", "k_Pi1", "k_Pi2",
-#                           "Total CytC", "Total CoQ", "Total NAD+/NADH", 
-#                           "k_O2", "K Leak", "Max. ATP Consumption")
-# rownames(dirLSsmallTAL) <- rownames(dirLSsmallPT) <- c("Electrical Potential", "NADH", "QH2", 
+#                           "Total CytC", "Total CoQ", "Total NAD+/NADH",
+#                           "Complex IV Oxygen Affinity",
+#                           "Max. ATP Consumption")
+# rownames(dirLSsmallTAL) <- rownames(dirLSsmallPT) <- c("Electrical Potential", "NADH", "QH2",
 #                           "Reduced CytC", "Cytosolic ATP")
 # 
 # pdf("../dataVis/combinedLS.pdf", width = 10)
-# par(mar = c(10.1, 8.1, 1.1, 2.1), las = 2, cex.axis = 1, mfrow = c(1, 2))
-# plot(dirLSsmallPT, 
+# par(mar = c(12.1, 8.1, 1.1, 2.1), las = 2, cex.axis = 1, mfrow = c(1, 2))
+# plot(dirLSsmallPT,
 #      col = viridis::viridis, main = "",
 #      xlab = "", ylab = "", breaks = seq(from = -1.5, to = 1.5, by = 0.25),
 #      key = NULL)
-# par(mar = c(10.1, 6.1, 1.1, 4.1))
+# par(mar = c(12.1, 6.1, 1.1, 4.1))
 # plot(dirLSsmallTAL,
 #      col = viridis::viridis, main = "",
 #      xlab = "", ylab = "", breaks = seq(from = -1.5, to = 1.5, by = 0.25))
 # dev.off()
-
+# 

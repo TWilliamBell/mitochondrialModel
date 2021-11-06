@@ -20,6 +20,7 @@ hleaknorm = pc.params[38]
 def main(): ## Runs differential equation for time span and outputs results to
     ## a csv file and a feather file.
     for i in range(7):
+        print(i)
         pc.pcPC.W_m = W_m
         pc.pcPC.W_i = 0.1*W_i
         pc.pcPC.W_x = 0.9*W_x
@@ -52,10 +53,10 @@ def main(): ## Runs differential equation for time span and outputs results to
                     ExpType = ExpType, StateType = StateType, tubule = "mTAL")
 
         results = sci.solve_ivp(fun = f,
-                            t_span = (0, 100000),
-                            y0 = pc.ics,
+                            t_span = (0, 1000),
+                            y0 = pc.finalConditions,
                             method = "LSODA",
-                            atol = 1e-8,
+                            atol = 1e-10,
                             rtol = 1e-10)
         results = np.concatenate((np.array([results.t]), results.y)).transpose()
         results = pd.DataFrame(results,

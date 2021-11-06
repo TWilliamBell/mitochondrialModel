@@ -1,6 +1,10 @@
+if (!grepl("mitochondrialModel/modelScripts", getwd())) {
+  setwd("./modelScripts")
+}
+
 drugSim <- list()
 
-files <- dir("./results")
+files <- dir("../results")
 
 files <- files[grep("DiseaseATP", files)]
 files <- files[grep("csv", files)]

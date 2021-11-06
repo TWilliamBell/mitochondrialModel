@@ -11,16 +11,14 @@ J_AtC = 1.70e-3
 ExpType = 1 ## in vivo = Pyruvate in cytoplasm clamped, cytoplasm has specified water
 ## volume
 StateType = 1 ## Default, remaining Pyruvate concentrations not clamped
-pc.pcPC.k_O2 = pc.pcPC.k_O2 / 2.0
 
 def f(t, y): ## Differential equations, with optional arguments specified
     print(t)
     if t > 40:
         pc.params[37] = 20.*3.172e+05
-    return equations.conservationEqs1(y, J_AtC = J_AtC,
+    return equations.conservationEqsmTAL(y, J_AtC = J_AtC,
                               ExpType = ExpType,
-                              StateType = StateType,
-                              tubule = "mTAL")
+                              StateType = StateType)
 
 def main(): ## Runs differential equation for time span and outputs results to
     ## a csv file and a feather file.

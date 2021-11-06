@@ -22,7 +22,7 @@ def f(t, y, pW, J_AtC, glyc, params): ## Differential equations, with optional a
                               tubule = "mTAL")
 
 normpcPC = pc.pcPC
-normParam = pc.params
+normParam = pc.paramsmTAL
 pc.finalConditions[pc.pcIS.iNADH_x] = pc.pcPC.NADtotmTAL/2.0
 
 
@@ -32,7 +32,7 @@ def modelPredictions(params):
            np.array([24]), np.linspace(30, 40, 11)), dtype = np.int64,
            casting = 'unsafe')
     ## Change pc.params as necessary
-    newParams = np.array(pc.params)
+    newParams = np.array(pc.paramsmTAL)
     for i in range(len(ran)):
         newParams[ran[i]] = params[i]
     ## Change pcPC
@@ -41,7 +41,7 @@ def modelPredictions(params):
     pc.pcPC.Qtot = params[32]
     pc.pcPC.NADtotmTAL = params[33]
     pc.pcPC.FADtot = params[34]
-    pc.pcPC.k_O2 = params[35]
+    pc.pcPC.k_O2mTAL = params[35]
     pc.pcPC.k_mADP = params[36]
     ## Change conservationEqs1 arguments
     potassiumWeight = params[37]
@@ -73,8 +73,8 @@ def modelPredictions(params):
                             t_span = (0, 500),
                             y0 = finalConditions,
                             method = "LSODA",
-                            atol = 1e-13,
-                            rtol = 1e-12)
+                            atol = 1e-10,
+                            rtol = 1e-10)
     results = results.y.transpose()[-1]
     print(results)
     return results
@@ -86,7 +86,7 @@ def main():
                           np.array([16, 17]), np.array([20]),
                           np.array([24]), np.linspace(30, 40, 11)),
                          dtype=np.int64, casting="unsafe")
-    defaults = np.concatenate((np.array(pc.params)[ran], [pc.pcPC.W_m, pc.pcPC.Ctot,
+    defaults = np.concatenate((np.array(pc.paramsmTAL)[ran], [pc.pcPC.W_m, pc.pcPC.Ctot,
                                                           pc.pcPC.Qtot, pc.pcPC.NADtotmTAL,
                                                           pc.pcPC.FADtot, pc.pcPC.k_O2/2.0,
                                                           pc.pcPC.k_mADP],

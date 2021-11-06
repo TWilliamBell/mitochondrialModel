@@ -1,6 +1,7 @@
-mitDismTAL <- read.csv("./results/tailsMitDismTALSim.csv")
-param <- feather::read_feather("./results/iterProd.feather")
+mitDismTAL <- read.csv("../results/tailsMitDismTALSim.csv")
+param <- feather::read_feather("../results/iterProd.feather")
 mitDismTAL <- mitDismTAL[order(mitDismTAL$nums), ]
+param <- param[mitDismTAL$nums, ]
 
 basic <- lm(mitDismTAL$ATP_c ~ param$`0` + param$`1` + param$`2` + param$`3`)
 summary(basic)

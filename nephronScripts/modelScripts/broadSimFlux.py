@@ -8,7 +8,7 @@ import fluxesmTAL as fl
 import pc
 import equations
 
-J_AtC = 4.39e-4
+J_AtC = 1.70e-3
 ExpType = 1 ## in vivo = Pyruvate in cytoplasm clamped, cytoplasm has specified water
 ## volume
 StateType = 1 ## Default, remaining Pyruvate concentrations not clamped

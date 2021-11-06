@@ -11,13 +11,13 @@ ExpType = 1 ## in vivo = Pyruvate in cytoplasm clamped, cytoplasm has specified 
 ## volume
 StateType = 1 ## Default, remaining Pyruvate concentrations not clamped
 
-def f(t, y, J_AtC = 4.39e-4, w = [1., 1., 1., 1.]): ## Differential equations, with optional arguments specified
+def f(t, y, J_AtC = 1.7e-3, w = [1., 1., 1., 1.]): ## Differential equations, with optional arguments specified
     return equations.conservationEqs1(y, J_AtC = J_AtC,
                               ExpType = ExpType,
                               StateType = StateType,
                               tubule = "mTAL", w = w)
 
-def h(t, y, J_AtC = 4.39e-4, w = [1., 1., 1., 1.]):
+def h(t, y, J_AtC = 1.7e-3, w = [1., 1., 1., 1.]):
     return equations.conservationEqs1(y, J_AtC = J_AtC,
                               ExpType = ExpType,
                               StateType = StateType,
@@ -80,9 +80,7 @@ def main(): ## Runs differential equation for time span and outputs results to
                                       "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
-        #results.to_csv("../results/resultsmTALMech"+str(i+1)+".csv")
-        feather.write_dataframe(results, "../results/resultsmTALMech"+str(i+1)+
-                                ".feather")
+        results.to_csv("../results/resultsmTALMech"+str(i+1)+".csv")
         print(results)
 
     pc.finalConditions[pc.pcIS.iO2_x] = normalO2
@@ -131,9 +129,7 @@ def main(): ## Runs differential equation for time span and outputs results to
                                       "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
-        #results.to_csv("../results/resultsmTALMech"+str(i+1)+"C3.csv")
-        feather.write_dataframe(results, "../results/resultsmTALMech"+str(i+1)+
-                                "C3.feather")
+        results.to_csv("../results/resultsmTALMech"+str(i+1)+"C3.csv")
         print(results)
 
 #start = time.time()

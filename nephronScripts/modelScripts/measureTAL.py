@@ -47,7 +47,7 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
     print(pc.params[34])
     print(pc.params[37])
     print(pc.params[38])
-    print(pc.pcPC.k_O2)
+    print(pc.pcPC.k_O2mTAL)
     ## These inital conditions are used for measurements in Edwards et al
     ## 2020 based on bath conditions in Schiffer et al 2018
     pc.vitroics[pc.pcIS.iH_c] = 10**-7.1

@@ -1,29 +1,32 @@
 import scipy.integrate as sci
+import feather
 import numpy as np
 import pandas as pd
+#import time
 
 import equations
 import pc
 
-J_AtC = 1.70e-3
 ExpType = 1 ## in vivo = Pyruvate in cytoplasm clamped, cytoplasm has specified water
 ## volume
 StateType = 1 ## Default, remaining Pyruvate concentrations not clamped
 
-def f(t, y): ## Differential equations, with optional arguments specified
-    return equations.conservationEqsmTAL(y, J_AtC = J_AtC,
+pc.pcPC.k_O2 = pc.pcPC.k_O2 / 2.0
+
+def f(t, y, J_AtC = 1.70e-3, w = [1., 1., 1., 1.]): ## Differential equations, with optional arguments specified
+    return equations.conservationEqs1(y, J_AtC = J_AtC,
                               ExpType = ExpType,
                               StateType = StateType,
-                              w = [1.0, 1.0, 1.0, 1.0])
+                              tubule = "mTAL", w = w)
 
-def main(): ## Runs differential equation for time span and outputs results to
-    ## a csv file and a feather file.
-
-    results = sci.solve_ivp(fun = f,
+def main():
+    pc.finalConditions[pc.pcIS.iO2_x] = 5.*pc.finalConditions[pc.pcIS.iO2_x]
+    g = lambda t, y: f(t, y, w = [1., 1., 0.25, 1.])
+    results = sci.solve_ivp(fun = g,
                             t_span = (0, 100000),
                             y0 = pc.finalConditions,
                             method = "LSODA",
-                            atol = 1e-8,
+                            atol = 1e-10,
                             rtol = 1e-10)
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
     results = pd.DataFrame(results,
@@ -40,14 +43,8 @@ def main(): ## Runs differential equation for time span and outputs results to
                                       "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
-    results.to_csv("../results/resultsmTAL.csv")
+    results.to_csv("../results/resultsMechCIVmTAL.csv")
     return results
 
-#start = time.time()
 a = main()
 print(a)
-#end = time.time()
-#print(end-start)
-
-finalConditions = np.array(a.tail(1)) ## Remove the first element before use
-#print(finalConditions[0][pc.pcIS.iATP_c+1])

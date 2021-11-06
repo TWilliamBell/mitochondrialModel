@@ -1,5 +1,5 @@
-def cost(RCR, PO):
-    return ((RCR-10.0)/1.6)**2+((PO-1.92)/0.13)**2
+def cost(RCRmTAL, POmTAL):
+    return ((RCRmTAL-10.0)/1.6)**2+((POmTAL-1.92)/0.13)**2
 
 ## Default
 print(cost(9.9, 0.98))

@@ -1021,7 +1021,7 @@ def fluxesmTAL(x, param, ExpType, w = [1., 1., 1., 1.], potassiumW = 1., DCA = 1
     Keq_C4 = np.exp(-(dGr_C4o + 4 * pcPC.F * dPsi) / pcPC.RT)
     Kapp_C4 = Keq_C4 * H_x ** 4 / H_i ** 2
     O2 = max(O2, MinCon)
-    J_C4 = w[2] * x_C4 * (O2 / (O2 + pcPC.k_O2)) * np.exp(pcPC.F * dPsi /
+    J_C4 = w[2] * x_C4 * (O2 / (O2 + pcPC.k_O2mTAL)) * np.exp(pcPC.F * dPsi /
                 pcPC.RT) * (Cred_i / pcPC.Ctot) * (
                 Kapp_C4 ** 0.5 * Cred_i * (O2 ** 0.25) - Cox_i)
 
