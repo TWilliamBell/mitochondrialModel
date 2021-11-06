@@ -14,7 +14,13 @@ ExpType = 1 ## in vivo = Pyruvate in cytoplasm clamped, cytoplasm has specified 
 ## volume
 StateType = 1 ## Default, remaining Pyruvate concentrations not clamped
 
-pc.pcPC.k_O2 = pc.pcPC.k_O2 / 2.0
+def g(t, y, i, a):
+    print(t)
+    return equations.conservationEqsmTAL(y, J_AtC=J_AtC,
+                               ExpType=ExpType,
+                               StateType=StateType,
+                               w=list(i),
+                               timeStart=a)
 
 def main(): ## Runs differential equation for time span and outputs results to
     ## a csv file and a feather file.
@@ -24,20 +30,15 @@ def main(): ## Runs differential equation for time span and outputs results to
     for i in itertools.product(w, w, w, w):
         print(i)
         a = time.time()
-        f = lambda t, y: equations.conservationEqs(y, J_AtC = J_AtC,
-                              ExpType = ExpType,
-                              StateType = StateType,
-                              w = list(i),
-                              timeStart = a,
-                              tubule = "mTAL")
+        f = lambda t, y: g(t, y, i = i, a = a)
         j+=1
         try:
             results = sci.solve_ivp(fun = f,
                             t_span = (0, 1000),
                             y0 = ics,
                             method = "LSODA",
-                            atol = 1e-8,
-                            rtol = 1e-8)
+                            atol = 1e-10,
+                            rtol = 1e-10)
         except timeError:
             continue
         results = np.concatenate((np.array([results.t]), results.y)).transpose()
@@ -55,10 +56,10 @@ def main(): ## Runs differential equation for time span and outputs results to
                                       "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
-        #results.to_csv("../results/resultsDiseaseATP"+str(j)+
-          #                        ".csv")
-        feather.write_dataframe(results, "../results/resultsDiseasemTALATP"+str(j)+
-                                "Fe.feather")
+        results.to_csv("../results/resultsDiseasemTALATP"+str(j)+
+                               ".csv")
+        #feather.write_dataframe(results, "../results/resultsDiseasemTALATP"+str(j)+
+        #                        "Fe.feather", version = 1)
         print(results)
 
 main()
