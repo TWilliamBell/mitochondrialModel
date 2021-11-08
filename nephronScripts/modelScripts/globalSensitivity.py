@@ -112,17 +112,17 @@ def main():
 
     ## Make predictions for samples
     print("Starting step 3 of 4", flush = True)
-    # y = np.zeros([param_values.shape[0], len(pc.finalConditions)])
-    # parVals = pd.DataFrame(param_values)
-    # parVals.to_csv("../results/parameterStates.csv")
-    # for i, par in enumerate(param_values):
-    #     print(i, flush = True)
-    #     y[i,:] = modelPredictions(par)
-    # state = pd.DataFrame(y)
-    # state.to_csv("../results/sensitivityStates.csv")
+    y = np.zeros([param_values.shape[0], len(pc.finalConditions)])
+    parVals = pd.DataFrame(param_values)
+    parVals.to_csv("../results/parameterStates.csv")
+    for i, par in enumerate(param_values):
+        print(i, flush = True)
+        y[i,:] = modelPredictions(par)
+    state = pd.DataFrame(y)
+    state.to_csv("../results/sensitivityStates.csv")
 
-    state = pd.read_csv("../results/sensitivityStates.csv")
-    y = np.array(state)[:, 1:64]
+    # state = pd.read_csv("../results/sensitivityStates.csv")
+    # y = np.array(state)[:, 1:64]
 
     ## No missing values
     #anyNANY = np.any([np.isnan(np.sum(y[i, ])) for i in range(y.shape[0])])
