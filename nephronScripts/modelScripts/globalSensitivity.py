@@ -91,8 +91,7 @@ def main():
                                                           pc.pcPC.FADtot, pc.pcPC.k_O2,
                                                           pc.pcPC.k_mADP],
                                                         [1., 1.256e-3, 2.3e-4]))
-    bottoms = defaults*0.25
-    bottoms[4] = defaults[4]*0.4
+    bottoms = defaults*0.4
     tops = defaults*2.5
     ranges = [[bottoms[i], tops[i]] for i in range(len(defaults))]
 
