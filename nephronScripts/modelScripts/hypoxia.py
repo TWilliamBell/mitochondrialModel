@@ -17,7 +17,7 @@ def f(t, y, O2baseline, O2stress): ## Differential equations, with optional argu
         y[pc.pcIS.iO2_x] = O2stress
     elif t > 20000 or t < 10000:
         y[pc.pcIS.iO2_x] = O2baseline
-    return equations.conservationEqs(y, J_AtC = J_AtC,
+    return equations.conservationEqs1(y, J_AtC = J_AtC,
                               ExpType = ExpType,
                               StateType = StateType)
 
