@@ -69,7 +69,7 @@ def main(): ## Runs differential equation for time span and outputs results to
     # # feather.write_dataframe(results, "../results/resultsIschemia.feather")
 
     if count == 0:
-        final = pd.read_feather("../results/resultsIschemia.feather")
+        final = pd.read_csv("../results/resultsIschemia.csv")
         final = np.delete(final.tail(1).to_numpy(), [0])
 
     finalIschemia = final
