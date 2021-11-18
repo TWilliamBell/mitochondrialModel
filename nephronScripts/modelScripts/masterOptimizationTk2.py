@@ -18,9 +18,9 @@ def costFn(vals):
     RCRmTAL = vals[5]
     POmTAL = vals[6]
     if PO > POmTAL:
-        compare = 1
+        compare = (PO-POmTAL)/0.05
     else:
-        compare = 0
+        compare = 0.
     return ((S3 - 4.08) / 0.6) ** 2 + ((RCR - 8.5) / 0.9) ** 2 + \
            ((LR - 0.37) / 0.06) ** 2 + \
            ((PO - 1.8) / 0.1) ** 2 + ((KH - 1.05) / 0.025) ** 2 + \
@@ -86,7 +86,7 @@ def optimFn(optParam):
 
 def main():
     results = sco.minimize(fun = optimFn,
-                           x0 = np.array([1., 1., 1., 0.5, 1., 1., 1., 1., 1., 1.]),
+                           x0 = np.array([1., 1., 1., 0.5, 1.5, 1., 1., 1., 1., 1.]),
                            bounds = ((0.1, 2.),
                                      (0.1, 2.),
                                      (0.1, 2.),
@@ -101,9 +101,9 @@ def main():
     a = pd.DataFrame(results.x)
     a.to_csv("../results/optimizationOutput.csv")
 
-#main()
+main()
 
-optimFn([1., 1., 1., 0.5, 1.55, 1., 1., 1., 1., 1.])
+#optimFn([1., 1., 1., 0.5, 1.5, 1., 2., 1., 1., 1.])
 
 #optimFn([1., 1., 1., 0.5, 1., 1., 1., 1., 1., 1.]) ## Current values
 
