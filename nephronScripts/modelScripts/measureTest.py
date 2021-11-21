@@ -174,7 +174,7 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
                               rtol = 1e-10)
 
     state = results.y[-1]
-    J1 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
+    #J1 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
 
 
     resultsS2 = np.concatenate((np.array([resultsS2.t]), resultsS2.y)).transpose()
@@ -262,7 +262,7 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
 
 
     state = results.y[-1]
-    J2 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
+    #J2 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
 
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
     results = pd.DataFrame(results,
@@ -298,7 +298,7 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
 
 
     state = results.y[-1]
-    J3 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
+    #J3 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
 
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
     results = pd.DataFrame(results,
@@ -334,7 +334,7 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
 
 
     state = results.y[-1]
-    J4 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
+    #J4 = fluxes.fluxes(state, param = pc.params, ExpType = ExpType)
 
     results = np.concatenate((np.array([results.t]), results.y)).transpose()
     results = pd.DataFrame(results,
