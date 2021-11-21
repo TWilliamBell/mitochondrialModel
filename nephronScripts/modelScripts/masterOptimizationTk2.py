@@ -87,16 +87,16 @@ def optimFn(optParam):
 def main():
     results = sco.minimize(fun = optimFn,
                            x0 = np.array([1., 1., 1., 0.5, 1.5, 1., 1., 1., 1., 1.]),
-                           bounds = ((0.1, 2.),
-                                     (0.1, 2.),
-                                     (0.1, 2.),
-                                     (0.1, 2.),
-                                     (0.1, 2.),
-                                     (0.1, 2.),
-                                     (0.1, 2.),
-                                     (0.1, 2.),
-                                     (0.1, 2.),
-                                     (0.1, 2.)))
+                           bounds = ((0.5, 2.),
+                                     (0.5, 2.),
+                                     (0.5, 2.),
+                                     (0.5, 2.),
+                                     (0.5, 2.),
+                                     (0.5, 2.),
+                                     (0.5, 2.),
+                                     (0.5, 2.),
+                                     (0.5, 2.),
+                                     (0.5, 2.)))
     print(a.success)
     a = pd.DataFrame(results.x)
     a.to_csv("../results/optimizationOutput.csv")
