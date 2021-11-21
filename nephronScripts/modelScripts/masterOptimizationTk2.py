@@ -18,7 +18,7 @@ def costFn(vals):
     RCRmTAL = vals[5]
     POmTAL = vals[6]
     if PO > POmTAL:
-        compare = (PO-POmTAL)/0.05
+        compare = (PO-POmTAL)/0.01
     else:
         compare = 0.
     return ((S3 - 4.08) / 0.6) ** 2 + ((RCR - 8.5) / 0.9) ** 2 + \
@@ -31,15 +31,15 @@ def optimFn(optParam):
     print(optParam)
 
     khpt = optParam[0]
-    khmTAL = optParam[1]
-    ko2pt = optParam[2] ## Done - need to test global
-    ko2mTAL = optParam[3]
-    hleakpt = optParam[4]
-    hleakmTAL = optParam[5]
-    kleakpt = optParam[6] ## Done - need to test args
-    kleakmTAL = optParam[7]
-    antpt = optParam[8]
-    antmTAL = optParam[9]
+    khmTAL = 1.0
+    ko2pt = optParam[1]
+    ko2mTAL = 0.5
+    hleakpt = optParam[2]
+    hleakmTAL = 1.0
+    kleakpt = optParam[3]
+    kleakmTAL = 1.0
+    antpt = optParam[4]
+    antmTAL = 1.0
 
     pW = kleakpt
 
@@ -73,9 +73,9 @@ def optimFn(optParam):
     pc.params[34] = 0.00675 * antmTAL
 
     ## mTAL measure
-    mtal.main(pW)
+    #mtal.main(pW)
     ## mTAL calculate
-    mtalVals = ctal.main()
+    mtalVals = (8.92, 1.97) #ctal.main()
     print("Done mTAL calculations.")
     vals = ptVals + mtalVals
     print(vals)
@@ -86,13 +86,8 @@ def optimFn(optParam):
 
 def main():
     results = sco.minimize(fun = optimFn,
-                           x0 = np.array([1., 1., 1., 0.5, 1.5, 1., 1., 1., 1., 1.]),
+                           x0 = np.array([1.5, 1., 1.5, 1., 1.]),
                            bounds = ((0.5, 2.),
-                                     (0.5, 2.),
-                                     (0.5, 2.),
-                                     (0.5, 2.),
-                                     (0.5, 2.),
-                                     (0.5, 2.),
                                      (0.5, 2.),
                                      (0.5, 2.),
                                      (0.5, 2.),
@@ -103,10 +98,10 @@ def main():
 
 main()
 
-#optimFn([1., 1., 1., 0.5, 1.5, 1., 2., 1., 1., 1.])
+#optimFn([1., 1., 1.5, 1., 1., 1., 1., 1.])
 
 #optimFn([1., 1., 1., 0.5, 1., 1., 1., 1., 1., 1.]) ## Current values
 
 #optimFn([1.00035857, 1.00035857, 1.00035857, 0.50053786,
 #         1.00035857, 1.00035857, 1.00035857, 1.00035857,
-#         1.00035857, 1.00035857])
+# 
