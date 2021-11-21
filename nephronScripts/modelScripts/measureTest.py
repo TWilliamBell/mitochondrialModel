@@ -1,7 +1,7 @@
 import scipy.integrate as sci
 import numpy as np
 import pandas as pd
-#import time
+import time
 
 import equations
 import pc
@@ -13,7 +13,7 @@ ExpType = 1 ## in vivo
 StateType = 1
 
 def kh(t, y, pW):
-    return equations.conservationEqs(y, J_AtC = 1.256e-3,
+    return equations.conservationEqs1(y, J_AtC = 1.256e-3,
                               ExpType = ExpType,
                               StateType = StateType,
                               w = [1., 1., 1., 1.],
@@ -27,7 +27,7 @@ def s2(t, y, pW): ## For State 2 Resp.
                               ExpType = ExpType,
                               StateType = StateType,
                               w = [1., 1., 1., 0.],
-                              potassiumW = pW)
+                              potassiumW = pW, timeStart = time.time())
     return a
 
 def s3(t, y, pW): ## Differential equations, with optional arguments specified
@@ -35,7 +35,7 @@ def s3(t, y, pW): ## Differential equations, with optional arguments specified
     return equations.conservationEqs(y, J_AtC = J_AtC,
                               ExpType = ExpType,
                               StateType = StateType,
-                              potassiumW = pW)
+                              potassiumW = pW, timeStart = time.time())
 
 def lr(t, y, pW): ## Differential equations, with optional arguments specified
     #print(t)
@@ -43,7 +43,7 @@ def lr(t, y, pW): ## Differential equations, with optional arguments specified
                               ExpType = ExpType,
                               StateType = StateType,
                               w = [1., 1., 1., 0.],
-                              potassiumW = pW)
+                              potassiumW = pW, timeStart = time.time())
     a[pc.pcIS.iADP_c] = 0
     a[pc.pcIS.iATP_c] = 0
     return a
@@ -54,7 +54,7 @@ def po(t, y, pW):
                               ExpType = ExpType,
                               StateType = StateType,
                               w = [1., 1., 1., 1.],
-                              potassiumW = pW)
+                              potassiumW = pW, timeStart = time.time())
     a[pc.pcIS.iADP_c] = 0
     a[pc.pcIS.iATP_c] = 0
     return a

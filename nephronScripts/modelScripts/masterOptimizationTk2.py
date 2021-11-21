@@ -58,19 +58,22 @@ def optimFn(optParam):
     #print(pc.params[34])
 
     ## PT measure
-    mtpt.main(pW)
+    try:
+        mtpt.main(pW)
+    except:
+        return 25.0
     ## PT calculate
     ptVals = ctpt.main()
     print("Done PT calculations.")
     ## mTAL params
 
-    pW = kleakmTAL
+    #pW = kleakmTAL
 
-    pc.pcPC.k_O2 = 1.2e-4*ko2mTAL
+    #pc.pcPC.k_O2 = 1.2e-4*ko2mTAL
 
-    pc.params[37] = khmTAL * (4.7580e+06 / 15)
-    pc.params[38] = 347.4 * hleakmTAL
-    pc.params[34] = 0.00675 * antmTAL
+    #pc.params[37] = khmTAL * (4.7580e+06 / 15)
+    #pc.params[38] = 347.4 * hleakmTAL
+    #pc.params[34] = 0.00675 * antmTAL
 
     ## mTAL measure
     #mtal.main(pW)
