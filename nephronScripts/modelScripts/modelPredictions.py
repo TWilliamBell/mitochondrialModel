@@ -21,7 +21,7 @@ mgcnorm = pc.ics[pc.pcIS.iMg_c]
 
 def main(): ## Runs differential equation for time span and outputs results to
     ## a csv file and a feather file.
-    for i in range(19):
+    for i in range(21):
         pc.ics[pc.pcIS.iO2_x] = o2norm
         pc.ics[pc.pcIS.iH_c] = hcnorm
         pc.ics[pc.pcIS.iK_c] = kcnorm
@@ -34,43 +34,47 @@ def main(): ## Runs differential equation for time span and outputs results to
         if i == 0:
             pc.ics[pc.pcIS.iO2_x] = o2norm*(60/50)
         if i == 1:
-            pc.ics[pc.pcIS.iO2_x] = o2norm*(20/50)
+            pc.ics[pc.pcIS.iO2_x] = o2norm*(40/50)
         if i == 2:
-            pc.ics[pc.pcIS.iO2_x] = o2norm*(10/50)
+            pc.ics[pc.pcIS.iO2_x] = o2norm*(20/50)
         if i == 3:
-            J_AtC = 0.75*J_AtC
+            pc.ics[pc.pcIS.iO2_x] = o2norm*(10/50)
         if i == 4:
-            J_AtC = 1.25*J_AtC
+            J_AtC = 0.75*J_AtC
         if i == 5:
-            J_AtC = 1.5*J_AtC
+            J_AtC = 1.25*J_AtC
         if i == 6:
-            pc.ics[pc.pcIS.iH_c] = 10**-7.4
+            J_AtC = 1.5*J_AtC
         if i == 7:
-            pc.ics[pc.pcIS.iH_c] = 10**-7.0
+            pc.ics[pc.pcIS.iH_c] = 10**-7.4
         if i == 8:
-            pc.ics[pc.pcIS.iH_c] = 10**-6.8
+            pc.ics[pc.pcIS.iH_c] = 10**-7.0
         if i == 9:
-            pc.ics[pc.pcIS.iK_c] = 60.0e-3
+            pc.ics[pc.pcIS.iH_c] = 10**-6.8
         if i == 10:
-            pc.ics[pc.pcIS.iK_c] = 140.0e-3
+            pc.ics[pc.pcIS.iK_c] = 60.0e-3
         if i == 11:
-            pc.ics[pc.pcIS.iMg_c] = 0.2e-3
+            pc.ics[pc.pcIS.iK_c] = 140.0e-3
         if i == 12:
-            pc.ics[pc.pcIS.iMg_c] = 0.8e-3
+            pc.ics[pc.pcIS.iMg_c] = 0.2e-3
         if i == 13:
-            pc.params[38] = 0.0
-            pW = 0.0
+            pc.ics[pc.pcIS.iMg_c] = 0.8e-3
         if i == 14:
             pc.params[38] = 0.0
+            pW = 0.0
         if i == 15:
             pc.params[38] = 0.0
-            pW = 10.0
         if i == 16:
-            pc.params[38] = hleaknorm*10.0
-            pW = 0.0
+            pc.params[38] = 0.0
+            pW = 10.0
         if i == 17:
             pc.params[38] = hleaknorm*10.0
+            pW = 0.0
         if i == 18:
+            pc.params[38] = hleaknorm*10.0
+        if i == 19:
+            pW = 10.0
+        if i == 20:
             pc.params[38] = hleaknorm*10.0
             pW = 10.0
 

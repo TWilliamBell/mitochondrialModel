@@ -163,7 +163,7 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
     resultsLR = sci.solve_ivp(fun = lambda t, y: lr(t, y, pW = pW),
                               t_span = (0, 20),
                               y0 = pc.vitroics,
-                              method = "LSODA", t_eval = np.linspace(0, 20, 100000),# "LSODA",
+                              method = "LSODA", t_eval = np.linspace(0, 20, 500000),# "LSODA",
                               atol = 1e-10,
                               rtol = 1e-10)
 
@@ -295,7 +295,7 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
     results = sci.solve_ivp(fun = lambda t, y: lr(t, y, pW = pW),
                             t_span = (0, 20),
                             y0 = pc.vitroics,
-                            method = "Radau", t_eval = np.linspace(0, 20, 100000),# "LSODA",
+                            method = "Radau", t_eval = np.linspace(0, 20, 500000),# "LSODA",
                             atol = 1e-10,
                             rtol = 1e-10)
 

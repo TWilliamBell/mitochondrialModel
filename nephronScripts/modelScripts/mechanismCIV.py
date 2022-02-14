@@ -11,7 +11,7 @@ ExpType = 1 ## in vivo = Pyruvate in cytoplasm clamped, cytoplasm has specified 
 ## volume
 StateType = 1 ## Default, remaining Pyruvate concentrations not clamped
 
-pc.pcPC.k_O2 = pc.pcPC.k_O2 / 2.0
+pc.pcPC.k_O2mTAL = pc.pcPC.k_O2mTAL * 2.0
 
 def f(t, y, J_AtC = 1.70e-3, w = [1., 1., 1., 1.]): ## Differential equations, with optional arguments specified
     return equations.conservationEqs1(y, J_AtC = J_AtC,
@@ -20,7 +20,7 @@ def f(t, y, J_AtC = 1.70e-3, w = [1., 1., 1., 1.]): ## Differential equations, w
                               tubule = "mTAL", w = w)
 
 def main():
-    pc.finalConditions[pc.pcIS.iO2_x] = 5.*pc.finalConditions[pc.pcIS.iO2_x]
+    pc.finalConditions[pc.pcIS.iO2_x] = 0.1*pc.finalConditions[pc.pcIS.iO2_x]
     g = lambda t, y: f(t, y, w = [1., 1., 0.25, 1.])
     results = sci.solve_ivp(fun = g,
                             t_span = (0, 100000),

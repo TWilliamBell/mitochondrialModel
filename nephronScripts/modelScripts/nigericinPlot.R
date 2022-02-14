@@ -1,8 +1,12 @@
+if (!grepl("mitochondrialModel/modelScripts", getwd())) {
+  setwd("./modelScripts")
+}
+
 nigericin <- list()
 
-nigericin[[1]] <- data.table::fread("./results/resultsATP.csv")
+nigericin[[1]] <- data.table::fread("../results/resultsATP.csv")
 
-nigericin[[2]] <- data.table::fread(paste0("./results/resultsNigericinExp.csv"))
+nigericin[[2]] <- data.table::fread(paste0("../results/resultsNigericinExp.csv"))
 
 
 t1 <- 20
