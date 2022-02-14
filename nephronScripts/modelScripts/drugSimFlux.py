@@ -99,8 +99,8 @@ def main():
     print("ATP generation range:")
     print((round(min(ga), 2), round(max(ga), 2)))
     print(q)
-    #import pprint as pp
-    #pp.pprint(list(np.round(qo, 2)))
+    import pprint as pp
+    pp.pprint(list(np.round(qo, 2)))
     #print(np.sum(np.round(ga, 2) < 5.03)/len(ga))
 
 main()

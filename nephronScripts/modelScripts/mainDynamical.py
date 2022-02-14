@@ -45,7 +45,7 @@ def main(): ## Runs differential equation for time span and outputs results to
     return results
 
 #start = time.time()
-a = main()
+#a = main()
 #end = time.time()
 #print(end-start)
 

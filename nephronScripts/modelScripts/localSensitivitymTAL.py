@@ -13,7 +13,7 @@ StateType = 1 ## Default, remaining Pyruvate concentrations not clamped
 
 def f(t, y, pW, J_AtC, glyc, params): ## Differential equations, with optional arguments specified
     #print(t)
-    return equations.conservationEqs1(y, J_AtC = J_AtC,
+    return equations.conservationEqsmTAL(y, J_AtC = J_AtC,
                               ExpType = ExpType,
                               StateType = StateType,
                               potassiumW = pW,

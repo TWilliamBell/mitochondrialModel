@@ -13,6 +13,7 @@ ExpType = 1 ## in vivo = Pyruvate in cytoplasm clamped, cytoplasm has specified 
 StateType = 1 ## Default, remaining Pyruvate concentrations not clamped
 
 def f(t, y, O2baseline, O2stress): ## Differential equations, with optional arguments specified
+    print(t)
     if t > 10000 and t < 20000:
         y[pc.pcIS.iO2_x] = O2stress
     elif t > 20000 or t < 10000:
@@ -23,6 +24,7 @@ def f(t, y, O2baseline, O2stress): ## Differential equations, with optional argu
 
 def main(): ## Runs differential equation for time span and outputs results to
     ## a csv file and a feather file.
+    pc.ics = pc.finalConditions
     O2norm = pc.ics[pc.pcIS.iO2_x] ## Basically a conversion factor, gets
     ## converted to the correct concentration in the fluxes.py file
     for i in range(10):
@@ -32,8 +34,8 @@ def main(): ## Runs differential equation for time span and outputs results to
                             t_span = (0, 50000),
                             y0 = pc.ics,
                             method = "LSODA",
-                            atol = 1e-8,
-                            rtol = 1e-10)
+                            atol = 1e-10,
+                            rtol = 1e-8)
         results = np.concatenate((np.array([results.t]), results.y)).transpose()
         results = pd.DataFrame(results,
                            columns = ["t", "H_x", "dPsi", "ATP_x", "ADP_x",

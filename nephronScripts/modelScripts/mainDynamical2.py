@@ -53,4 +53,5 @@ a = main()
 
 print(a)
 
-finalConditions = np.delete(np.array(a.tail(1)), [0]) ## Remove the first element before use
+#finalConditions = np.delete(np.array(a.tail(1)), [0]) ## Remove the first element before use
+#print(finalConditions)

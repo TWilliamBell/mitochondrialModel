@@ -154,18 +154,22 @@ for (i in seq_along(uncoupling)) {
   newCases[[i]] <- data.table::fread(uncoupling[i])
 }
 
-#atp <- function(x) tail(x$ATP_c, 1)
-#newCasesATP <- sapply(newCases, atp)
-#hist(newCasesATP/0.00258)
-
-cyt <- function(x) tail(x$Cred_i, 1)
-newCasesCytC <- sapply(newCases, cyt)
-hist(newCasesCytC/2.148e-3, xlim = c(0, 1))
+pdf("../dataVis/miceDiabetesmTAL.pdf", width = 17)
+par(mfrow = c(1, 3), cex.lab = 2, cex.axis = 2, mar = c(5.1, 5, 4.1, 2.1))
+atp <- function(x) tail(x$ATP_c, 1)
+newCasesATP <- sapply(newCases, atp)
+hist(newCasesATP*1000, xlab = "Cytosolic ATP (mM)", main = "", xlim = c(0, 3))
 
 coq <- function(x) tail(x$QH2_x, 1)
 newCasesCOQ <- sapply(newCases, coq)
-hist(newCasesCOQ/0.00178)
+hist(newCasesCOQ/0.00178, xlim = c(0, 1), xlab = "Reduction State of Coenzyme Q", main = "")
 
-nadh <- function(x) tail(x$NADH_x, 1)
-newCasesNADH <- sapply(newCases, nadh)
-hist(newCasesNADH/0.824e-4)
+cyt <- function(x) tail(x$Cred_i, 1)
+newCasesCytC <- sapply(newCases, cyt)
+hist(newCasesCytC/2.148e-3, xlim = c(0, 1), xlab = "Reduction State of Cytochrome C", main = "")
+
+dev.off()
+
+#nadh <- function(x) tail(x$NADH_x, 1)
+#newCasesNADH <- sapply(newCases, nadh)
+#hist(newCasesNADH/0.824e-4)

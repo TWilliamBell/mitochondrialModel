@@ -56,7 +56,7 @@ def fluxes(x, param, ExpType, w = [1., 1., 1., 1.], potassiumW = 1., DCA = 1., c
 
     P_Hle = 345.00 * param[38] / 302.0928 * 1 # 345 used to be 750 in absence
     # of Potassium leak
-    P_Kle = 345.00 * 1.e-006 * 1 * potassiumW
+    P_Kle = 345.00 * 1.e-006 * 1.55 * potassiumW
     x_Kle = x_Hle * 0 # 0.5e-006; #2.0e-006;
 
     # Medulla vs. cortex simulations

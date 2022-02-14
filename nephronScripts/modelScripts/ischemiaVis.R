@@ -1,16 +1,20 @@
+if (!grepl("modelScripts", getwd())) {
+   setwd("modelScripts")
+}
+
 # reperfusionOXPHOS <- feather::read_feather("../results/resultsReperfusionOXPHOS1.feather")
 # reperfusionOXPHOS2 <- feather::read_feather("../results/resultsReperfusionOXPHOS2.feather")
 # reperfusionOXPHOS12 <- feather::read_feather("../results/resultsReperfusionOXPHOS12.feather")
 
 # reperfusionPool1 <- feather::read_feather(
 #    "../results/resultsReperfusionPool1.feather")
-reperfusionPool12 <- feather::read_feather(
-   "../results/resultsReperfusionPool12.feather")
+reperfusionPool12 <- data.table::fread(
+   "../results/resultsReperfusionPool12.csv")
 
 # reperfusionPoolOXPHOS1 <- feather::read_feather(
 #    "../results/resultsReperfusionOXPHOSPool1.feather")
-reperfusionPoolOXPHOS12 <- feather::read_feather(
-   "../results/resultsReperfusionOXPHOSPool12.feather")
+reperfusionPoolOXPHOS12 <- data.table::fread(
+   "../results/resultsReperfusionOXPHOSPool12.csv")
 
 # reperfusion1 <- read.csv("../results/resultsReperfusion1.csv")
 # shortreperfusion <- reperfusion1[reperfusion1$t < 120, ]
@@ -261,6 +265,7 @@ plot(shortReperfusionPoolOXPHOS12$t, shortReperfusionPoolOXPHOS12$NADH_x/0.824e-
      ylab = "Proportion of NADH/NAD+ Pool in Reduced State")
 lines(shortReperfusionPoolOXPHOS12$t, shortReperfusionPoolOXPHOS12$NADH_x/0.824e-3,
       col = "red")
+
 plot(shortReperfusionPoolOXPHOS12$t, shortReperfusionPoolOXPHOS12$QH2_x/2.148e-3,
      col = "red", cex = 0.1, xlab = "Time (s)", ylim = c(0, 1),
      ylab = "Proportion of Coenzyme Q Pool in Reduced State")
@@ -317,18 +322,18 @@ plot(shortReperfusionPool12$t, shortReperfusionPool12$NADH_x/0.824e-3,
      ylab = "Proportion of NADH/NAD+ Pool in Reduced State")
 lines(shortReperfusionPool12$t, shortReperfusionPool12$NADH_x/0.824e-3,
       col = "red")
-#plot(shortReperfusionPool12$t, shortReperfusionPool12$QH2_x/2.148e-3,
+# plot(shortReperfusionPool12$t, shortReperfusionPool12$QH2_x/2.148e-3,
 #     col = "red", cex = 0.1, xlab = "Time (s)", ylim = c(0, 1),
 #     ylab = "Proportion of Coenzyme Q Pool in Reduced State")
-#lines(shortReperfusionPool12$t, shortReperfusionPool12$QH2_x/2.148e-3,
+# lines(shortReperfusionPool12$t, shortReperfusionPool12$QH2_x/2.148e-3,
 #      col = "red")
-#plot(shortReperfusionPool12$t, shortReperfusionPool12$Cred_i/1.956e-3,
+# plot(shortReperfusionPool12$t, shortReperfusionPool12$Cred_i/1.956e-3,
 #     col = "red", cex = 0.1, xlab = "Time (s)", ylim = c(0, 1),
 #     ylab = "Proportion of Cytochrome C Pool in Reduced State")
-#lines(shortReperfusionPool12$t, shortReperfusionPool12$Cred_i/1.956e-3,
+# lines(shortReperfusionPool12$t, shortReperfusionPool12$Cred_i/1.956e-3,
 #      col = "red")
 plot(shortReperfusionPool12$t, shortReperfusionPool12$dPsi+dpH,
-     col = "red", cex = 0.1, xlab = "Time (s)", ylim = c(150, 200),
+     col = "red", cex = 0.1, xlab = "Time (s)", ylim = c(0, 200),
      ylab = "Proton Motive Force (mV)")
 lines(shortReperfusionPool12$t, shortReperfusionPool12$dPsi+dpH,
       col = "red")

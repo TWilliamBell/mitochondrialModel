@@ -14,6 +14,7 @@ StateType = 1 ## Default, remaining Pyruvate concentrations not clamped
 normPYR = pc.finalConditions[pc.pcIS.iPYR_c]
 normO2 = pc.finalConditions[pc.pcIS.iO2_x]
 
+
 def f(t, y): ## Differential equations, with optional arguments specified
     print(t)
     DCA = 1.5
@@ -40,10 +41,10 @@ def main(): ## Runs differential equation for time span and outputs results to
 
 
     ## Pool becomes smaller post-ischemia
-    pc.pcPC.NADtot = pc.pcPC.NADtot * 0.5
-    finalIschemia[pc.pcIS.iATP_c] = finalIschemia[pc.pcIS.iATP_c] * 0.25
-    finalIschemia[pc.pcIS.iADP_c] = finalIschemia[pc.pcIS.iADP_c] * 0.25
-    finalIschemia[pc.pcIS.iAMP_c] = finalIschemia[pc.pcIS.iAMP_c] * 0.25
+    global pc
+    finalIschemia[pc.pcIS.iATP_c] = finalIschemia[pc.pcIS.iATP_c] * 0.3
+    finalIschemia[pc.pcIS.iADP_c] = finalIschemia[pc.pcIS.iADP_c] * 0.3
+    finalIschemia[pc.pcIS.iAMP_c] = finalIschemia[pc.pcIS.iAMP_c] * 0.3
     pc.finalConditions = finalIschemia
     pc.finalConditions[pc.pcIS.iO2_x] = normO2
 

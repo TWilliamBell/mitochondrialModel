@@ -37,8 +37,8 @@ def h(t, y):
 def main(): ## Runs differential equation for time span and outputs results to
     ## a csv file and a feather file.
     count = 0
-    pc.finalConditions[pc.pcIS.iPYR_c] = normPYR/10.0
-    pc.finalConditions[pc.pcIS.iO2_x] = normO2/10.0
+    #pc.finalConditions[pc.pcIS.iPYR_c] = normPYR/10.0
+    pc.finalConditions[pc.pcIS.iO2_x] = 0.#normO2/10.0
     #print(f(0, pc.finalConditions))
     count = 1
     results = sci.solve_ivp(fun = f,

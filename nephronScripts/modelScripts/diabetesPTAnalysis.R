@@ -18,7 +18,7 @@ barplot(Leak$dPsi,
         names.arg = c(1.0, 1.15, 1.5, 5.0, 10.0), col = "thistle4",
         xpd = F,
         ylim = c(140, 165))
-barplot(Leak$ATP_c, xpd = F, ylim = c(0.00, 0.0005),
+barplot(Leak$ATP_c, xpd = F, ylim = c(0.00, 0.003),
         names.arg = c(1.0, 1.15, 1.5, 5.0, 10.0), col = "thistle4")
 barplot(Leak$QH2_x/0.00178, names.arg = c(1.0, 1.15, 1.5, 5.0, 10.0), col = "thistle4",
         xpd = F)
@@ -30,7 +30,7 @@ barplot(PO2$dPsi,
         names.arg = c(0.1, 0.5, 1.0), col = "thistle4",
         xpd = F,
         ylim = c(140, 165))
-barplot(PO2$ATP_c, xpd = F, ylim = c(0.00, 0.0005),
+barplot(PO2$ATP_c, xpd = F, ylim = c(0.00, 0.003),
         names.arg = c(0.1, 0.5, 1.0), col = "thistle4")
 
 library(ggplot2)
@@ -134,26 +134,30 @@ dev.off()
 #   geom_histogram() +
 #   xlab("NADH/NAD+ Reduction State")
 
-uncoupling <- paste0("results/", dir("results")[grepl("MiceUncoupling", dir("results"))
+uncoupling <- paste0("../results/", dir("../results")[grepl("MiceUncoupling", dir("../results"))
                                                 & !grepl("mTAL", 
-                                                         dir("results"))])
+                                                         dir("../results"))])
 newCases <- list()
 
 for (i in seq_along(uncoupling)) {
   newCases[[i]] <- data.table::fread(uncoupling[i])
 }
 
+pdf("../dataVis/miceDiabetesPT.pdf", width = 17)
+par(mfrow = c(1, 3), cex.lab = 2, cex.axis = 2, mar = c(5.1, 5, 4.1, 2.1))
 atp <- function(x) tail(x$ATP_c, 1)
 newCasesATP <- sapply(newCases, atp)
-hist(newCasesATP/0.00258)
-
-cyt <- function(x) tail(x$Cred_i, 1)
-newCasesCytC <- sapply(newCases, cyt)
-hist(newCasesCytC/2.148e-3, xlim = c(0, 1))
+hist(newCasesATP*1000, main = "", xlab = "Cytosolic ATP (mM)", xlim = c(0, 3))
 
 coq <- function(x) tail(x$QH2_x, 1)
 newCasesCOQ <- sapply(newCases, coq)
-hist(newCasesCOQ/0.00178)
+hist(newCasesCOQ/0.00178, main = "", xlab = "Reduction State of Coenzyme Q", xlim = c(0, 1))
+
+cyt <- function(x) tail(x$Cred_i, 1)
+newCasesCytC <- sapply(newCases, cyt)
+hist(newCasesCytC/(2.148e-3*1.33), main = "", xlab = "Reduction State of Cytochrome C",
+     xlim = c(0, 1))
+dev.off()
 
 # nadh <- function(x) tail(x$NADH_x, 1)
 # newCasesNADH <- sapply(newCases, nadh)

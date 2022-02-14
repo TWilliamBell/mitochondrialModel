@@ -5,24 +5,6 @@ reperfusionDCA <- read.csv("../results/resultsReperfusionPoolDCA.csv")
 reperfusionPYR <- read.csv("../results/resultsReperfusionPoolPYR.csv")
 reperfusionNoDCA <- read.csv("../results/resultsReperfusionPool12.csv")
 
-par(mfrow = c(1, 1))
-plot(reperfusionDCA$t, reperfusionDCA$NADH_x/4.85e-3, cex = 0.1, col = "red",
-     ylim = c(0, 1), ylab = "Redox State of NADH", xlab = "Time (s)")
-lines(reperfusionDCA$t, reperfusionDCA$NADH_x/4.85e-3, cex = 0.1, col = "red")
-
-plot(reperfusionDCA$t, reperfusionDCA$QH2_x/6.49e-3, cex = 0.1, col = "red",
-     ylim = c(0, 1))
-lines(reperfusionDCA$t, reperfusionDCA$QH2_x/6.49e-3, cex = 0.1, col = "red")
-
-plot(reperfusionDCA$t, reperfusionDCA$Cred_i, cex = 0.1, col = "red")
-lines(reperfusionDCA$t, reperfusionDCA$Cred_i, cex = 0.1, col = "red")
-
-plot(reperfusionDCA$t, reperfusionDCA$dPsi, cex = 0.1, col = "red")
-lines(reperfusionDCA$t, reperfusionDCA$dPsi, cex = 0.1, col = "red")
-
-shortreperfusionDCA <- reperfusionDCA[reperfusionDCA$t < 250, ]
-shortreperfusionNoDCA <- reperfusionNoDCA[reperfusionNoDCA$t < 250, ]
-
 pdf('../dataVis/dcaIR.pdf', width = 15)
 par(mfrow = c(1, 2), cex.axis = 2, cex.lab = 2.5, mar = c(5.1, 5, 4.1, 3))
 plot(shortreperfusionDCA$t, shortreperfusionDCA$NADH_x/0.824e-3, cex = 0.1, col = "blue",
