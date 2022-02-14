@@ -31,11 +31,10 @@ def main(): ## Runs differential equation for time span and outputs results to
     ## a csv file and a feather file.
     count = 0
     if count == 0:
-        final = pd.read_feather("../results/resultsIschemia.feather")
-        final = np.delete(final.tail(1).to_numpy(), [0])
+        final = pd.read_csv("../results/resultsIschemia.csv")
+        final = np.delete(final.tail(1).to_numpy(), [0, 1])
 
     finalIschemia = final
-
 
     ## Pool becomes smaller post-ischemia
     pc.pcPC.NADtot = pc.pcPC.NADtot * 0.5

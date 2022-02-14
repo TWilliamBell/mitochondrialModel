@@ -1,3 +1,6 @@
+## Checks if changes to OXPHOS and CytC/CoQ levels to more PT-like levels are enough to
+## explain liver differences
+
 import itertools
 import scipy.integrate as sci
 import numpy as np
@@ -15,14 +18,16 @@ StateType = 1 ## Default, remaining Pyruvate concentrations not clamped
 
 hleaknorm = pc.params[38]
 O2norm = pc.finalConditions[pc.pcIS.iO2_x]
-pc.pcPC.Ctot = pc.pcPC.Ctot*1.33
-pc.pcPC.Qtot = pc.pcPC.Qtot*0.2
+pc.pcPC.Ctot = 1.956e-3*1.33#pc.pcPC.Ctot*1.33
+pc.pcPC.Qtot = 2.148e-3*0.2#pc.pcPC.Qtot*0.2
 
 def main(): ## Runs differential equation for time span and outputs results to
     ## a csv file and a feather file.
-    w1 = [0.5, 0.75, 1]
-    w3 = [0.75, 1]
-    w4 = [0.25, 0.5, 0.75, 1, 1.75]
+    pc.finalConditions[pc.pcIS.iH_c] = 6.3096e-008
+    w1 = [0.5*0.75/1.2, 0.75*0.75/1.2, 1*0.75/1.2]
+    w3 = [0.75*0.5/0.525, 1*0.5/0.525]
+    w4 = [0.25*0.25/0.4, 0.5*0.25/0.4, 0.75*0.25/0.4, 1*0.25/0.4,
+          1.75*0.25/0.4]
     w5 = [1]
     h = [1., 1.15, 1.5, 5, 10]
     pO2 = [0.1, 0.5, 1]
@@ -65,7 +70,7 @@ def main(): ## Runs differential equation for time span and outputs results to
                                       "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
-            results.to_csv("../results/resultsDiabetesComplex"+str(k)+
+            results.to_csv("../results/resultsDiabetesComplexMechanismOXPHOS"+str(k)+
                                 ".csv")
             print(results)
 

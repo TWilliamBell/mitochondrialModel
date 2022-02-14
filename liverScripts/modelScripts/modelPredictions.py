@@ -22,7 +22,7 @@ pc.ics = pc.finalConditions
 
 def main(): ## Runs differential equation for time span and outputs results to
     ## a csv file and a feather file.
-    for i in range(19):
+    for i in range(20):
         pc.ics[pc.pcIS.iO2_x] = o2norm
         pc.ics[pc.pcIS.iH_c] = hcnorm
         pc.ics[pc.pcIS.iK_c] = kcnorm
@@ -72,18 +72,20 @@ def main(): ## Runs differential equation for time span and outputs results to
         if i == 17:
             pc.params[38] = hleaknorm*10.0
         if i == 18:
+            pW = 10.0
+        if i == 19:
             pc.params[38] = hleaknorm*10.0
             pW = 10.0
 
         f = lambda t, y : equations.conservationEqs(y,
-                            J_AtC = J_AtC,ExpType = ExpType, StateType = StateType,
+                            J_AtC = J_AtC, ExpType = ExpType, StateType = StateType,
                             potassiumW = pW, glyc = glyc)
 
         results = sci.solve_ivp(fun = f,
                             t_span = (0, 100000),
                             y0 = pc.ics,
                             method = "LSODA",
-                            atol = 1e-6,
+                            atol = 1e-8,
                             rtol = 1e-8)
         results = np.concatenate((np.array([results.t]), results.y)).transpose()
         results = pd.DataFrame(results,

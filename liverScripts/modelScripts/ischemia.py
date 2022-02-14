@@ -16,10 +16,11 @@ StateType = 1 ## Default, remaining Pyruvate concentrations not clamped
 normPYR = pc.finalConditions[pc.pcIS.iPYR_c]
 normO2 = pc.finalConditions[pc.pcIS.iO2_x]
 
-def f(t, y): ## Differential equations, with optional arguments specified
+def f(t, y, w = [1., 1., 1., 1.]): ## Differential equations, with optional
+    ## arguments specified
     print(t)
     return equations.conservationEqs(y, J_AtC = J_AtC,
-                              ExpType = ExpType,
+                              ExpType = ExpType, w = w,
                               StateType = StateType, glyc = glyc)
 
 def g(t, y):
@@ -39,14 +40,18 @@ def h(t, y):
 def main(): ## Runs differential equation for time span and outputs results to
     ## a csv file and a feather file.
     count = 0
-    pc.livFinalConditions[pc.pcIS.iPYR_c] = normPYR/10.0
-    pc.livFinalConditions[pc.pcIS.iO2_x] = normO2/10.0
-    #print(f(0, pc.finalConditions))
+    #pc.finalConditions[pc.pcIS.iPYR_c] = normPYR/10.0
+    pc.finalConditions[pc.pcIS.iO2_x] = 0.# normO2/10.0
+
+    pc.pcPC.NADtot = pc.pcPC.NADtot * 0.5
+    pc.finalConditions[pc.pcIS.iATP_c] = pc.finalConditions[pc.pcIS.iATP_c] * 0.25
+    pc.finalConditions[pc.pcIS.iADP_c] = pc.finalConditions[pc.pcIS.iADP_c] * 0.25
+    pc.finalConditions[pc.pcIS.iAMP_c] = pc.finalConditions[pc.pcIS.iAMP_c] * 0.25
 
     count = 1
     results = sci.solve_ivp(fun = f,
-                            t_span = (0, 10000),
-                            y0 = pc.livFinalConditions,
+                            t_span = (0, 50000),
+                            y0 = pc.finalConditions,
                             method = "LSODA",
                             atol = 1e-10,
                             rtol = 1e-10)
@@ -73,7 +78,10 @@ def main(): ## Runs differential equation for time span and outputs results to
     if count == 0:
         final = pd.read_csv("../results/resultsIschemia.csv")
         final = np.delete(final.tail(1).to_numpy(), [0, 1])
-    #final[pc.pcIS.iSUC_x] = 20.0*pc.livFinalConditions[pc.pcIS.iSUC_x]
+
+    #final[pc.pcIS.iSUC_x] = 0.0066 #0.0066 #0.0077 #0.0077/0.23
+    #final[pc.pcIS.iSUC_i] = 0.0066
+    #final[pc.pcIS.iSUC_c] = 0.0066
     finalIschemia = final
 
     # pc.finalConditions = final
@@ -250,12 +258,13 @@ def main(): ## Runs differential equation for time span and outputs results to
     #             "../results/resultsReperfusionOXPHOS12.feather")
 
     ## Pool becomes smaller post-ischemia
-    pc.pcPC.NADtot = pc.pcPC.NADtot * 0.5
-    finalIschemia[pc.pcIS.iATP_c] = finalIschemia[pc.pcIS.iATP_c] * 0.25
-    finalIschemia[pc.pcIS.iADP_c] = finalIschemia[pc.pcIS.iADP_c] * 0.25
-    finalIschemia[pc.pcIS.iAMP_c] = finalIschemia[pc.pcIS.iAMP_c] * 0.25
+
     pc.finalConditions = finalIschemia
     pc.finalConditions[pc.pcIS.iO2_x] = normO2
+    # pc.pcPC.NADtot = pc.pcPC.NADtot * 0.5
+    # finalIschemia[pc.pcIS.iATP_c] = finalIschemia[pc.pcIS.iATP_c] * 0.25
+    # finalIschemia[pc.pcIS.iADP_c] = finalIschemia[pc.pcIS.iADP_c] * 0.25
+    # finalIschemia[pc.pcIS.iAMP_c] = finalIschemia[pc.pcIS.iAMP_c] * 0.25
 
     # results = sci.solve_ivp(fun = f,
     #                         t_span = (0, 1000),
@@ -336,9 +345,9 @@ def main(): ## Runs differential equation for time span and outputs results to
     #                                 "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
     #                                 "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
     #                                 "PCr_c", "AMP_c"])
-    # # results.to_csv("../results/resultsReperfusion1.csv")
-    # feather.write_dataframe(results,
-    #                         "../results/resultsReperfusionOXPHOSPool1.feather")
+    # results.to_csv("../results/resultsReperfusionOXPHOSPool1.csv")
+    # #feather.write_dataframe(results,
+    # #                        "../results/resultsReperfusionOXPHOSPool1.feather")
     #
     # pc.finalConditions = final
     # pc.finalConditions[pc.pcIS.iPYR_c] = normPYR
@@ -363,9 +372,9 @@ def main(): ## Runs differential equation for time span and outputs results to
     #                                 "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
     #                                 "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
     #                                 "PCr_c", "AMP_c"])
-    # # results.to_csv("../results/resultsReperfusion2.csv")
+    # results.to_csv("../results/resultsReperfusionOXPHOSPool2.csv")
     # feather.write_dataframe(results,
-    #                         "../results/resultsReperfusionOXPHOSPool2.feather")
+    #                        "../results/resultsReperfusionOXPHOSPool2.feather")
 
     ## Pool is smaller, single stage
     pc.finalConditions = finalIschemia
@@ -373,7 +382,7 @@ def main(): ## Runs differential equation for time span and outputs results to
     pc.finalConditions[pc.pcIS.iPYR_x] = normPYR
 
     results = sci.solve_ivp(fun=f,
-                            t_span=(0, 1000),
+                            t_span=(0, 500),
                             y0=pc.finalConditions,
                             method="LSODA",
                             atol=1e-10,
@@ -402,7 +411,7 @@ def main(): ## Runs differential equation for time span and outputs results to
     pc.finalConditions[pc.pcIS.iPYR_x] = normPYR
 
     results = sci.solve_ivp(fun=g,
-                            t_span=(0, 1000),
+                            t_span=(0, 500),
                             y0=pc.finalConditions,
                             method="LSODA",
                             atol=1e-10,
@@ -423,8 +432,7 @@ def main(): ## Runs differential equation for time span and outputs results to
                                     "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                     "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                     "PCr_c", "AMP_c"])
-    feather.write_dataframe(results,
-                            "../results/resultsReperfusionOXPHOSPool12.feather")
+    results.to_csv("../results/resultsReperfusionOXPHOSPool12.csv")
 
 
     ## Halved the reduction in OXPHOS

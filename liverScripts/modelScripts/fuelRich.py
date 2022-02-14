@@ -11,7 +11,6 @@ ExpType = 1 ## in vivo = Pyruvate in cytoplasm clamped, cytoplasm has specified 
 ## volume
 StateType = 1 ## Default, remaining Pyruvate concentrations not clampe
 
-pc.finalConditions[pc.pcIS.iNADH_x] = pc.pcPC.NADtot/2.0
 pyr = pc.finalConditions[pc.pcIS.iPYR_c]
 O2norm = pc.finalConditions[pc.pcIS.iO2_x]
 

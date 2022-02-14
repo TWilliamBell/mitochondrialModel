@@ -14,18 +14,14 @@ ExpType = 1 ## in vivo = Pyruvate in cytoplasm clamped, cytoplasm has specified 
 ## volume
 StateType = 1 ## Default, remaining Pyruvate concentrations not clampe
 
-pc.finalConditions[pc.pcIS.iNADH_x] = pc.pcPC.NADtot/2.0
-
-def f(t, y, O2baseline, O2stress): ## Differential equations, with optional arguments specified
+def f(t, y): ## Differential equations, with optional arguments specified
     print(t)
-    if t > 10000 and t < 20000:
-        y[pc.pcIS.iO2_x] = O2stress
-    elif t > 20000 or t < 10000:
-        y[pc.pcIS.iO2_x] = O2baseline
     return equations.conservationEqs(y, J_AtC = J_AtC,
                               ExpType = ExpType,
                               StateType = StateType,
                               glyc = glyc)
+
+pc.ics = pc.finalConditions
 
 def main(): ## Runs differential equation for time span and outputs results to
     ## a csv file and a feather file.
@@ -33,10 +29,11 @@ def main(): ## Runs differential equation for time span and outputs results to
     ## converted to the correct concentration in the fluxes.py file
 
     O2new = 4.83e-5/72. ## Absolute bare minimum
-    g = lambda t, y: f(t, y, O2baseline=O2norm, O2stress=O2new)
+    pc.ics[pc.pcIS.iO2_x] = O2new
+    g = lambda t, y: f(t, y)
     results = sci.solve_ivp(fun=g,
-                            t_span=(0, 50000),
-                            y0=pc.livFinalConditions,
+                            t_span=(0, 100000),
+                            y0=pc.ics,
                             method="LSODA",
                             atol=1e-8,
                             rtol=1e-8)
@@ -59,11 +56,12 @@ def main(): ## Runs differential equation for time span and outputs results to
     print(results)
 
     for i in range(10):
-        O2new = ((i+1)/10)*O2norm
-        g = lambda t, y: f(t, y, O2baseline = O2norm, O2stress = O2new)
+        O2new = ((i+1)/10.)*O2norm
+        pc.ics[pc.pcIS.iO2_x] = O2new
+        g = lambda t, y: f(t, y)
         results = sci.solve_ivp(fun = g,
-                            t_span = (0, 50000),
-                            y0 = pc.livFinalConditions,
+                            t_span = (0, 100000),
+                            y0 = pc.ics,
                             method = "LSODA",
                             atol = 1e-8,
                             rtol = 1e-8)

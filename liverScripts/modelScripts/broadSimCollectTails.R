@@ -2,11 +2,9 @@ if (!grepl("liverScripts/modelScripts", getwd())) {
   setwd("./liverScripts/modelScripts")
 }
 
-drugSim <- list()
-
 files <- dir("../results")
 
-files <- files[grepl("DiabetesComplex", files) & !grepl("DiabetesComplexMechanism", files)]
+files <- files[grepl("BroadATP", files)]
 
 nums <- gsub("[^\\d]+", "", files, perl=TRUE)
 nums[nums == ""] <- "100000"
@@ -21,4 +19,4 @@ for (i in files) {
 
 tailsOrderly <- as.data.frame(cbind(nums, do.call(rbind, tails)))
 
-write.csv(tailsOrderly, file = "../results/tailsDiabetes.csv")
+write.csv(tailsOrderly, file = "../results/tailsBroadSim.csv")

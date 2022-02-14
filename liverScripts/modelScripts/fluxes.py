@@ -978,7 +978,7 @@ def fluxes(x, param, ExpType, w = [1., 1., 1., 1.], potassiumW = 1., DCA = 1.):
     #
     # Glutamate consumption producing AKG
 
-    J_gdh = 0.02*GLU_x*(NAD_x/3.2e-3)/(1.9e-3+GLU_x)
+    J_gdh = 2e-10*GLU_x*(NAD_x/9.35e-3)/(3e-3+GLU_x)
     if NAD_x < 1e-10 or GLU_x < 1e-10:
         J_gdh = 0.
     #J_gdh = 0.0

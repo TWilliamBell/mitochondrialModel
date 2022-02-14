@@ -12,14 +12,11 @@ ExpType = 1 ## in vivo = Pyruvate in cytoplasm clamped, cytoplasm has specified 
 ## volume
 StateType = 1 ## Default, remaining Pyruvate concentrations not clampe
 
-pc.finalConditions[pc.pcIS.iNADH_x] = pc.pcPC.NADtot/2.0
+pc.livFinalConditions[pc.pcIS.iNADH_x] = pc.pcPC.NADtot/2.0
 hleakNorm = pc.params[38]
 
 def f(t, y, i = 2): ## Differential equations, with optional arguments specified
-    if t > 30:
-        pc.params[38] = hleakNorm*i
-    else:
-        pc.params[38] = hleakNorm
+    pc.params[38] = hleakNorm*i
     return equations.conservationEqs(y, J_AtC = J_AtC,
                               ExpType = ExpType,
                               StateType = StateType,
@@ -33,8 +30,8 @@ def main():
                             t_span=(0, 1000),
                             y0=pc.finalConditions,
                             method="LSODA",
-                            atol=1e-10,
-                            rtol=1e-10)
+                            atol=1e-8,
+                            rtol=1e-8)
         results = np.concatenate((np.array([results.t]), results.y)).transpose()
         results = pd.DataFrame(results,
                            columns=["t", "H_x", "dPsi", "ATP_x", "ADP_x",

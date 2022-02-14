@@ -1,4 +1,4 @@
-if (!grepl("liverScripts/modelScripts", getwd())) {
+if (!grepl("liverScripts/modelscripts", getwd())) {
   setwd("./liverScripts/modelScripts")
 }
 
@@ -87,7 +87,7 @@ ggplot(oxphosOnly, aes(x = dPsi)) +
   xlab("dPsi (mV)") +
   ylab("Frequency")
 
-ggplot(diabetes, aes(x = QH2_x/6.49e-3)) +
+ggplot(diabetes, aes(x = QH2_x/0.001298)) +
   geom_histogram(aes(fill = Leak)) +
   xlab("Coenzyme Q Reduction State")
 
@@ -97,7 +97,7 @@ ggplot(diabetes, aes(x = Cred_i/0.0058387)) +
   geom_histogram(aes(colour = CIV, fill = CIV)) +
   xlab("Cytochrome C Redox State") +
   ylab("Frequency") +
-  geom_vline(xintercept = diabetes[348, ]$Cred_i/0.0058387, col = "red") +
+  geom_vline(xintercept = diabetes[423, ]$Cred_i/0.0058387, col = "red") +
   xlim(c(0, 1)) + 
   theme(axis.title = element_text(size = 18), legend.title = element_text(size = 18),
         legend.text = element_text(size = 18), axis.text = element_text(size = 18))
@@ -106,3 +106,4 @@ dev.off()
 ggplot(diabetes, aes(x = NADH_x/9.4e-3)) +
   geom_histogram(aes(colour = Leak, fill = Leak)) +
   xlab("NADH/NAD+ Reduction State")
+
