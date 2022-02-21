@@ -1,15 +1,16 @@
 ## In order to run this file, you should first run simulateMitDismTAL.py, and then collectMitDismTAL.R 
 ## & writeProduct.py
 
-if (!grepl("mitochondrialModel/modelScripts", getwd())) {
-  setwd("./modelScripts")
+if (!grepl("nephronScripts/modelScripts", getwd())) {
+  setwd("nephronScripts/modelScripts")
 }
 
 mitDis <- data.table::fread("../results/tailsMitDismTALSim.csv")
 mitDis$V1 <- mitDis$t <- NULL
 colnames(mitDis)[1] <- "k"
 
-iterProd <- feather::read_feather('../results/iterProd.feather')
+iterProd <- read.csv('../results/iterProd.csv')
+iterProd$X <- NULL
 iterProd <- cbind(1:256, iterProd, rep(1, 256), rep(0, 256), 
                   rep(1, 256))
 colnames(iterProd) <- c("k", "CI", "CIII", "CIV", "ATPSynthase",
@@ -142,6 +143,13 @@ curve(ATPcurve, from = 0.2, to = 1, add = T, col = "blue")
 abline(a = ATP[which.min(ATP)], b = 0, col = "red")
 
 dev.off()
+
+LMATP <- lm(mitDis$ATP_c ~ mitDis$CI + mitDis$CIII + mitDis$CIV, mitDis)
+print(summary(LMATP))
+
+LMATPMix <- lm(mitDis$ATP_c ~ mitDis$CI + mitDis$CIII + mitDis$CIV +
+                 mitDis$CI*mitDis$CIII*mitDis$CIV, mitDis)
+print(summary(LMATPMix))
 
 LMPSI <- lm(mitDis$dPsi ~ mitDis$CI + mitDis$CIII + mitDis$CIV, mitDis)
 print(summary(LMPSI))

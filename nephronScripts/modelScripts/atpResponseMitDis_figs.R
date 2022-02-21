@@ -1,5 +1,5 @@
-if (!grepl("mitochondrialModel/modelScripts", getwd())) {
-  setwd("./modelScripts")
+if (!grepl("nephronScripts/modelScripts", getwd())) {
+  setwd("nephronScripts/modelScripts")
 }
 
 ## In order to run this file, you should first run simulateMitDis1.py and then collectMitDisPT.R &
@@ -19,7 +19,8 @@ for (i in 1:256) {
 
 par(cex.lab = 1.5)
 
-iterProd <- as.data.frame(feather::read_feather("../results/iterProd.feather"))
+iterProd <- as.data.frame(read.csv("../results/iterProd.csv"))
+iterProd$X <- NULL
 
 trueInd <- (1:256)[trueVec]
 
@@ -374,7 +375,7 @@ ggplot(container, aes(x = ATP_c*1000)) +
         legend.title = element_text(size = 18), axis.text = element_text(size = 18))
 dev.off()
 
-## Table 3.7 uses these values
+## Table 3.8 uses these values
 LMPSI <- lm(allResults$ATP_c ~ allResults$CI + allResults$CIII + allResults$CIV, allResults)
 print(summary(LMPSI))
 
