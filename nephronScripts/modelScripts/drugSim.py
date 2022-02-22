@@ -30,8 +30,6 @@ def main(): ## Runs differential equation for time span and outputs results to
             print(list(j))
             pInt = list(j)[1]
             k+=1
-            if list(j)[1] == 1.:
-                continue
             pc.params[38] = list(j)[0]*hleaknorm
             a = time.time()
             f = lambda t, y: equations.conservationEqs1(y, J_AtC = J_AtC,
