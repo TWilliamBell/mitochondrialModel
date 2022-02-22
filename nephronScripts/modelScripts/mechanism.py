@@ -12,15 +12,15 @@ ExpType = 1 ## in vivo = Pyruvate in cytoplasm clamped, cytoplasm has specified 
 StateType = 1 ## Default, remaining Pyruvate concentrations not clamped
 
 def f(t, y, J_AtC = 1.7e-3, w = [1., 1., 1., 1.]): ## Differential equations, with optional arguments specified
-    return equations.conservationEqs1(y, J_AtC = J_AtC,
+    return equations.conservationEqsmTAL(y, J_AtC = J_AtC,
                               ExpType = ExpType,
                               StateType = StateType,
-                              tubule = "mTAL", w = w)
+                              w = w)
 
 def h(t, y, J_AtC = 1.7e-3, w = [1., 1., 1., 1.]):
     return equations.conservationEqs1(y, J_AtC = J_AtC,
                               ExpType = ExpType,
-                              StateType = StateType,
+                              StateType = StateType, params = pc.paramsmTAL,
                               tubule = "PT", w = w)
 
 ## We consider cases where the PT was ATP depleted but the mTAL was not
@@ -138,3 +138,4 @@ main()
 #print(end-start)
 
 #finalConditions = np.array(a.tail(1)) ## Remove the first element before use
+
