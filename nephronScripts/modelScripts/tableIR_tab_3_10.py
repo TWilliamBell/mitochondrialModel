@@ -1,4 +1,4 @@
-## In order to run this file, should first run the script modelPredictions.py and mainDynamical2.py
+## In order to run this file, should first run the script ischemia.py and ischemiamTAL.py
 
 import numpy as np
 import pandas as pd

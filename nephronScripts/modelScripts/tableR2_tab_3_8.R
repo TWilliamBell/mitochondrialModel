@@ -11,23 +11,24 @@ sink()
 r2atp <- summary(LMATP)$r.squared
 r2atpmix <- summary(LMATPMix)$r.squared
 
-cat("ATP PT R2", "No interactions:", r2atp, "Full interactions:", r2atpmix, "\n")
+cat(paste0("ATP PT R2\t", "No interactions:\t", r2atp, "\t Full interactions:\t", r2atpmix, "\n"))
 
 r2psi <- summary(LMPSI)$r.squared
 r2psimix <- summary(LMPSIMix)$r.squared
 
-cat("dPsi PT R2", "No interactions:", r2psi, "Full interactions:", r2psimix, "\n")
+cat(paste0("dPsi PT R2\t", "No interactions:\t", r2psi, "\t Full interactions:\t", r2psimix, "\n"))
 
 sink(nullfile())
-source("atpReponseMitDismTAL_figs.R")
+suppressMessages(source("atpReponseMitDismTAL_figs.R"))
 sink()
 
 r2atp <- summary(LMATP)$r.squared
 r2atpmix <- summary(LMATPMix)$r.squared
 
-cat("ATP PT R2", "No interactions:", r2atp, "Full interactions:", r2atpmix, "\n")
+cat(paste0("ATP mTAL R2\t", "No interactions:\t", r2atp, "\t Full interactions:\t", r2atpmix, "\n"))
 
 r2psi <- summary(LMPSI)$r.squared
 r2psimix <- summary(LMPSIMix)$r.squared
 
-cat("dPsi PT R2", "No interactions:", r2psi, "Full interactions:", r2psimix)
+cat(paste0("dPsi mTAL R2\t", "No interactions:\t", r2psi, "\t Full interactions:\t", r2psimix))
+
