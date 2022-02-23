@@ -129,7 +129,7 @@ def main():
               ((np.log10(mpFile[pc.pcIS.iH_i]))-(np.log10(mpFile[pc.pcIS.iH_x])))
 
         ## Table values
-        values = {"JO2": JO2, "JATP": JATP, "PO": PO, "dPsi": normal[pc.pcIS.idPsi],
+        values = {"JO2": JO2, "JATP": JATP, "PO": PO, "dPsi": mpFile[pc.pcIS.idPsi],
                   "PMF": pmf, "ATPc": ATPc*1000.,
                   "ATP/ADP Ratio": ARatio}
         for key in values.keys():

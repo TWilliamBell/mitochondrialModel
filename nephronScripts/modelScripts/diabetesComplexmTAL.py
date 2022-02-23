@@ -31,8 +31,6 @@ def main(): ## Runs differential equation for time span and outputs results to
     for i in itertools.product(w1, w3, w4, w5):
         k += 1
         print(k)
-        if not k in nums:
-            continue
         print(list(i))
         pc.paramsmTAL[38] = 2.5 * hleaknorm
         pc.finalConditions[pc.pcIS.iO2_x] = 0.8 * O2norm

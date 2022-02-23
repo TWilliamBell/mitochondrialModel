@@ -38,7 +38,7 @@ def main():
     ARatio = ATPc / ADPc
     pmf = normal[pc.pcIS.idPsi] + ((pc.pcPC.RT * np.log(10)) / pc.pcPC.F) * \
           (np.log10(normal[pc.pcIS.iH_i]) - np.log10(normal[pc.pcIS.iH_x]))
-    values = {"JO2": JO2, "JATP": JATP, "PO": PO, "PMF": pmf, "ATPc": ATPc * 1000.,
+    values = {"JO2": JO2, "JATP": JATP, "PO": PO, "dPsi": normal[pc.pcIS.idPsi], "PMF": pmf, "ATPc": ATPc * 1000.,
               "ATP/ADP Ratio": ARatio}
     dictToPD.append(values)
 
@@ -119,7 +119,7 @@ def main():
               (np.log10(mpFile[pc.pcIS.iH_x]) - np.log10(mpFile[pc.pcIS.iH_c]))
 
         ## Table values
-        values = {"JO2": JO2, "JATP": JATP, "PO": PO, "PMF": pmf, "ATPc": ATPc*1000.,
+        values = {"JO2": JO2, "JATP": JATP, "PO": PO, "dPsi": mpFile[pc.pcIS.idPsi], "PMF": pmf, "ATPc": ATPc*1000.,
                   "ATP/ADP Ratio": ARatio}
         dictToPD.append(values)
 

@@ -6,11 +6,9 @@ import pandas as pd
 import pc
 import fluxesmTAL as fluxes
 
-J_AtC = 4.39e-4 ## Used by Edwards et al.
+J_AtC = 0
 ExpType = 2 ## in vitro
 StateType = 1
-#pc.pcPC.k_O2 = pc.pcPC.k_O2/2.0
-#pc.params[34] = 1.00000001*pc.params[34]
 
 def main():
 
@@ -34,13 +32,13 @@ def main():
 
     for i in range(len(s3)):
         s3t = np.delete(s3[i], [0, 1])
-        Js3.append(fluxes.fluxesmTAL(s3t, param = pc.params, ExpType = ExpType))
+        Js3.append(fluxes.fluxesmTAL(s3t, param = pc.paramsmTAL, ExpType = ExpType))
 
     for i in range(len(po)):
        pot = np.delete(po[i], [0, 1])
-       Jpo.append(fluxes.fluxesmTAL(pot, param = pc.params, ExpType = ExpType))
+       Jpo.append(fluxes.fluxesmTAL(pot, param = pc.paramsmTAL, ExpType = ExpType))
 
-    Js2 = fluxes.fluxesmTAL(s2, param = pc.params, ExpType = ExpType)
+    Js2 = fluxes.fluxesmTAL(s2, param = pc.paramsmTAL, ExpType = ExpType)
     JO2s2 = Js2[2]
     JATPs2 = Js2[3]
 
@@ -72,11 +70,12 @@ def main():
     # print("The oxygen consumption at maximum in State 3 is:")
     # print(valsS3["JO2"])
     # print("\n")
-    # print("The Respiratory Control Ratio is:")
-    # print(RCR)
-    # print("\n")
-    # print("The P/O ratio is:")
-    # print(PO)
+    print("The Respiratory Control Ratio is:")
+    print(RCR)
+    print("\n")
+    print("The P/O ratio is:")
+    print(PO)
     return (RCR, PO)
 
-#main()
+if __name__ == "__main__":
+    main()

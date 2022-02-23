@@ -13,27 +13,25 @@ StateType = 1
 
 def s2(t, y, pW): ## For State 2 Resp.
     #print(t)
-    a = equations.conservationEqs(y, J_AtC = J_AtC,
+    a = equations.conservationEqsmTAL(y, J_AtC = J_AtC,
                               ExpType = 2,
                               StateType = StateType,
                               w = [1., 1., 1., 0.],
-                              tubule = "mTAL", potassiumW = pW)
+                              potassiumW = pW)
     return a
 
 def s3(t, y, pW): ## Differential equations, with optional arguments specified
     #print(t)
-    return equations.conservationEqs(y, J_AtC = J_AtC,
+    return equations.conservationEqsmTAL(y, J_AtC = J_AtC,
                               ExpType = 2,
                               StateType = StateType,
-                              tubule = "mTAL",
                               potassiumW = pW)
 
 def po(t, y, pW):
     #print(t)
-    a = equations.conservationEqs(y, J_AtC = J_AtC,
+    a = equations.conservationEqsmTAL(y, J_AtC = J_AtC,
                               ExpType = 2,
                               StateType = StateType,
-                              tubule = "mTAL",
                               potassiumW = pW)
     a[pc.pcIS.iADP_c] = 0
     a[pc.pcIS.iATP_c] = 0
@@ -171,4 +169,4 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
     results.to_csv("../results/resultsPOTAL.csv")
     #print("Done P/O ratio calculations.")
 
-#main()
+main()

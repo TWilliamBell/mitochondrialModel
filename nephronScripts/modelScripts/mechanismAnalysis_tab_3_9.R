@@ -17,9 +17,10 @@ comparison <- mechanism/baseline
 hypoxia <- round(mechanism[1:6]*1000, 3)
 hypoxiamTAL <- min(read.csv("../results/resultsHypoxiaTAL0.csv")$ATP_c)
 
+## Table 3.9
 cat("mTAL baseline at 1 mmHg:\t", round(hypoxiamTAL*1000, 2),'\n')
-cat("PT-like k_O2:\t\t\t", round(mechanism[1]*1000, 2), '\n')
 cat("PT-like V_mito:\t\t\t", round(mechanism[3]*1000, 2), '\n')
+cat("PT-like k_O2:\t\t\t", round(mechanism[1]*1000, 2), '\n')
 cat("PT-like k_O2 and V_mito:\t", round(mechanism[6]*1000, 2), '\n')
 
 hypoxiaPT <- tail(read.csv("../results/resultsExtremeHypoxia.csv")$ATP_c, 1)

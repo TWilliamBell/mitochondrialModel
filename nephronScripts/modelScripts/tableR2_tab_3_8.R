@@ -1,4 +1,6 @@
 ## Table 3.8
+## In order to run this file, you should first run simulateMitDis1.py and then collectMitDisPT.R &
+## writeProduct.py, then run simulateMitDismTAL.py, and then collectMitDismTAL.R
 
 if (!grepl("nephronScripts/modelScripts", getwd())) {
   setwd("nephronScripts/modelScripts")

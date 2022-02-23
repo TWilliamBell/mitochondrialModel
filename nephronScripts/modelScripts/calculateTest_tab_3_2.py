@@ -149,4 +149,5 @@ def main():
     print(PO)
     return (KH, valsS3["JO2"], RCR, valsLR["JO2"], PO)
 
-main()
+if __name__ == "__main__":
+    main()

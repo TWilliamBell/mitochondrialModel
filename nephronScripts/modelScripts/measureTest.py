@@ -359,7 +359,7 @@ def main(pW = 1.): ## Runs differential equation for time span and outputs resul
 
 
 #start = time.time()
-#main()
+main()
 #end = time.time()
 #print(end-start)
 
