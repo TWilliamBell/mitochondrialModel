@@ -1,4 +1,4 @@
-if (!grepl("mitochondrialModel/modelScripts", getwd())) {
+if (!grepl("nephronScripts/modelScripts", getwd())) {
   setwd("./modelScripts")
 }
 

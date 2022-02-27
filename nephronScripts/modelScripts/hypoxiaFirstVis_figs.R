@@ -1,7 +1,7 @@
 ## In order to run this file, first run hypoxia.py
 
-if (!grepl("mitochondrialModel/modelScripts", getwd())) {
-  setwd("./modelScripts")
+if (!grepl("nephronScripts/modelScripts", getwd())) {
+  setwd("./nephronScripts/modelScripts")
 }
 
 hypoxia <- list()
@@ -57,6 +57,7 @@ hypoxiaMins <- sapply(hypoxia, f)
 
 o2fn <- splinefun((1:10)/10, 1000*hypoxiaMins)
 
+## Figure 3.18
 pdf("../dataVis/hypoxiaPTresponse.pdf")
 par(cex.axis = 1.5, cex.lab = 1.5)
 plot((1:10)/10, hypoxiaMins*1000, xlab = "Fold Change in Oxygen Tension", ylab = "Cytosolic ATP (mM)")

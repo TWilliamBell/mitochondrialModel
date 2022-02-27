@@ -1,12 +1,14 @@
 ## In order to run this file, you should first run broadSimmTAL.py, writeProduct.py, and then
 ## collectBroadSim.R
 
-if (!grepl("mitochondrialModel/modelScripts", getwd())) {
-  setwd("./modelScripts")
+if (!grepl("nephronScripts/modelScripts", getwd())) {
+  setwd("./nephronScripts/modelScripts")
 }
 
-drugSimParam <- as.data.frame(feather::read_feather(
-  "../results/iterProdBroadSim.feather"))
+drugSimParam <- data.table::fread(
+  "../results/iterProdBroadSim.csv")
+drugSimParam$V1 <- NULL
+drugSimParam <- drugSimParam[-1, ]
 
 colnames(drugSimParam) <- c("k", "CI", "CIII", "CIV", "ATPSynthase",
                             "XHle", "glycolysisLevel", "O2Level")
@@ -21,9 +23,11 @@ drugSimTails$X <- drugSimTails$V1 <- drugSimTails$t <- NULL
 mitDis <- data.table::fread("../results/tailsMitDismTALSim.csv")
 mitDis$V1 <- mitDis$t <- NULL
 colnames(mitDis)[1] <- "k"
+mitDis$k <- mitDis$k-1
 
-iterProd <- feather::read_feather('../results/iterProd.feather')
-iterProd <- cbind(1:256, iterProd, rep(1, 256), rep(0, 256), 
+iterProd <- data.table::fread('../results/iterProd.csv')
+iterProd <- iterProd[-1, ]
+iterProd <- cbind(iterProd, rep(1, 256), rep(0, 256), 
                   rep(1, 256))
 colnames(iterProd) <- c("k", "CI", "CIII", "CIV", "ATPSynthase",
                         "XHle", "glycolysisLevel", "O2Level")
@@ -48,24 +52,24 @@ O2Only <- joinedTable[joinedTable$CI == 1 & joinedTable$CIII == 1
 
 ## Hydrogen leak
 
-XHleOnly <- joinedTable[joinedTable$CI == 1 & joinedTable$CIII == 1
-                      & joinedTable$CIV == 1 
-                      & joinedTable$ATPSynthase == 1 
-                      & joinedTable$glycolysisLevel == 0
-                      & joinedTable$O2Level == 1, ]
-## Not very impactful on ATPc
-uncouplingdPsi <- XHleOnly$dPsi
-
-pdf("../dataVis/uncouplingmTAL.pdf")
-par(cex.lab = 1.5, cex.axis = 1.5)
-plot(uncouplingdPsi, cex = 0.01, xlim = c(0.5, 4.5), 
-     ylim = c(155, 165),
-     xaxt = "n", xlab = "Fold Change in Hydrogen Leak", 
-     ylab = "Electrical Potential Gradient (mV)")
-rect(1:4-0.5, rep(155,4)-0.5, 1:4+0.5, uncouplingdPsi, 
-     col = "springgreen")
-axis(1, at = 1:4, labels = paste0(XHleOnly$XHle, "x"))
-dev.off()
+# XHleOnly <- joinedTable[joinedTable$CI == 1 & joinedTable$CIII == 1
+#                       & joinedTable$CIV == 1 
+#                       & joinedTable$ATPSynthase == 1 
+#                       & joinedTable$glycolysisLevel == 0
+#                       & joinedTable$O2Level == 1, ]
+# ## Not very impactful on ATPc
+# uncouplingdPsi <- XHleOnly$dPsi
+# 
+# pdf("../dataVis/uncouplingmTAL.pdf")
+# par(cex.lab = 1.5, cex.axis = 1.5)
+# plot(uncouplingdPsi, cex = 0.01, xlim = c(0.5, 4.5), 
+#      ylim = c(155, 165),
+#      xaxt = "n", xlab = "Fold Change in Hydrogen Leak", 
+#      ylab = "Electrical Potential Gradient (mV)")
+# rect(1:4-0.5, rep(155,4)-0.5, 1:4+0.5, uncouplingdPsi, 
+#      col = "springgreen")
+# axis(1, at = 1:4, labels = paste0(XHleOnly$XHle, "x"))
+# dev.off()
 
 library(ggplot2)
 #library(MASS)
@@ -96,9 +100,10 @@ p <- ggplot(container, aes(x = ATP_c*1000)) +
   ylab("Frequency") +
   xlim(c(0, 2.5))
 p$labels$fill <- "Relative \nOxygen \nTension"
-p +
+p <- p +
   theme(axis.title = element_text(size = 18), legend.title = element_text(size = 18),
         legend.text = element_text(size = 18), axis.text = element_text(size = 18))
+print(p)
 dev.off()
 
 container <- joinedTable[joinedTable$glycolysisLevel == 0 & 
@@ -122,9 +127,10 @@ p <- ggplot(container, aes(x = ATP_c*1000)) +
   theme(axis.title = element_text(size = 18), 
         legend.title = element_text(size = 18),
         legend.text = element_text(size = 18), 
-        axis.text = element_text(size = 18))
+        axis.text = element_text(size = 18)) +
+  xlim(c(0, 2.5))
 p$labels$fill <- "Relative\nComplex IV\nActivity"
-p
+print(p)
 dev.off()
 
 pdf("../dataVis/atpHist.pdf")

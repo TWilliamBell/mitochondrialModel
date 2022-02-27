@@ -40,7 +40,7 @@ def main(): ## Runs differential equation for time span and outputs results to
                 b.append([k]+weight+list(j))
     iterProdBroadSim = pd.DataFrame(b)
     iterProdBroadSim.to_csv(
-        "../results/iterProdBroadSim.feather")
+        "../results/iterProdBroadSim.csv")
 
     w1 = [0.67, 0.75, 1]
     w3 = [0.75, 1]

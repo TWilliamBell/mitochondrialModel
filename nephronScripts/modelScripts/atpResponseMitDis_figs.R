@@ -360,13 +360,13 @@ p <- ggplot(container, aes(x = ATP_c*1000)) +
         legend.title = element_text(size = 18), axis.text = element_text(size = 18)) +
   xlim(c(0, 2.5))
 p$labels$fill <- "Relative \nComplex III \nActivity"
-p
+print(p)
 dev.off()
 
 container <- allResults[allResults$CIII == 1, ]
 container$CIV <- as.factor(container$CIV)
 
-pdf("atpComplexIVmultivar.pdf")
+pdf("../dataVis/atpComplexIVmultivar.pdf")
 ggplot(container, aes(x = ATP_c*1000)) +
   geom_histogram(aes(color = CIV, fill = CIV), bins = 24) +
   xlab("ATP Concentration (mmol)") +

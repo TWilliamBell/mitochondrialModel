@@ -50,4 +50,4 @@ print(a)
 #print(end-start)
 
 finalConditions = np.array(a.tail(1)) ## Remove the first element before use
-#print(finalConditions[0][pc.pcIS.iATP_c+1])
+print(finalConditions[0])

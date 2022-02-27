@@ -1,3 +1,7 @@
+if (!grepl("nephronScripts/modelScripts", getwd())) {
+  setwd("./modelScripts")
+}
+
 drugSim <- list()
 
 files <- dir("../results")

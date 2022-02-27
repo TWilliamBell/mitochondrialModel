@@ -10,7 +10,7 @@ for (i in 0:9) {
 
 a <- rainbow(10)
 
-## Figure 3.18
+## Figure 3.19
 pdf("../dataVis/hypoxiaTALparam.pdf")
 par(cex.axis = 1.5, cex.lab = 1.5)
 for (i in 1:10) {
@@ -57,6 +57,7 @@ hypoxiaMins <- sapply(hypoxia, f)
 
 o2fn <- splinefun((1:10)/10, 1000*hypoxiaMins)
 
+## Figure 3.20
 pdf("../dataVis/hypoxiamTALresponse.pdf")
 par(cex.axis = 1.5, cex.lab = 1.5)
 plot((1:10)/10, hypoxiaMins*1000, xlab = "Fold Change in Oxygen Tension", ylab = "Cytosolic ATP (mM)")

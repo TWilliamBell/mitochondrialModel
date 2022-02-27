@@ -73,8 +73,6 @@ def main(): ## Runs differential equation for time span and outputs results to
             print(list(i))
             print(list(j))
             k+=1
-            if not k in nums:
-                continue
             pc.paramsmTAL[38] = list(j)[0]*hleaknorm
             pc.finalConditions[pc.pcIS.iO2_x] = list(j)[1]*O2norm
             a = time.time()
