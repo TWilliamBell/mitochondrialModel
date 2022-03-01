@@ -57,8 +57,6 @@ def main(): ## Runs differential equation for time span and outputs results to
             g = lambda t, y: f(t, y,
                                w = [0.75/1.2, 0.5/0.525,
                                     0.25/0.4, 1.]) ## Just OXPHOS
-        if i < 6:
-            continue
         if i == 6:
             g = lambda t, y: f(t, y, J_AtC = 1.256e-3*1.25,
                                w=[0.75 / 1.2, 0.5 / 0.525,
@@ -90,7 +88,7 @@ def main(): ## Runs differential equation for time span and outputs results to
                                       "ASP_i", "ASP_c", "GLU_i", "GLU_c", "FUM_i",
                                       "FUM_c", "ICIT_i", "ICIT_c", "GLC_c", "G6P_c",
                                       "PCr_c", "AMP_c"])
-        results.to_csv("../results/resultsmTALMech"+str(i+1)+".csv")
+        results.to_csv("../results/resultsMech"+str(i+1)+".csv")
         #feather.write_dataframe(results, "../results/resultsMech"+str(i+1)+
         #                        ".feather")
         print(results)
@@ -127,8 +125,6 @@ def main(): ## Runs differential equation for time span and outputs results to
             g = lambda t, y: f(t, y,
                                w = [0.75/1.2, 0.25*0.5/0.525,
                                     0.25/0.4, 1.]) ## Just OXPHOS
-        if i < 6:
-            continue
         if i == 6:
             g = lambda t, y: f(t, y, J_AtC=1.256e-3,
                                 w = [0.75 / 1.2, 0.25 * 0.5 / 0.525,

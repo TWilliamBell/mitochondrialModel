@@ -1,10 +1,13 @@
-## In order to run this file, you should first run (in kidney and liver directories) diabetesComplex.py, 
-## ("") diabetesCollectVals.R, and ("") writeProduct.py
+## In order to run this file, you should first run nephronScripts/diabetesComplex.py,
+## nephronScripts/diabetesComplexmTAL.py, liverScripts/diabetesComplex.py,
+## liverScripts/diabetesCollectVals.R,
+## nephronScripts/diabetesComplexCollectVals.R, 
+## nephronScripts/diabetesComplexmTALCollectVals.R, nephronScripts/writeProduct.py, and 
+## liverScripts/iterprod.py
 
-# if (!grepl("mitochondrialModel/nephronScripts/modelScripts", getwd())) {
-#   setwd("./nephronScripts/modelScripts")
-# }
-setwd("modelScripts")
+if (!grepl("mitochondrialModel/nephronScripts/modelScripts", getwd())) {
+  setwd("./nephronScripts/modelScripts")
+}
 
 gg_color_hue <- function(n) {
   hues = seq(15, 375, length = n + 1)
@@ -14,7 +17,9 @@ gg_color_hue <- function(n) {
 tails <- read.csv("../results/tailsDiabetesComplex.csv")
 rownames(tails) <- NULL
 
-iterprod <- feather::read_feather("../results/iterProdDiabetes.feather")
+iterprod <- data.table::fread("../results/iterProdDiabetes.csv")
+iterprod <- iterprod[-1, ]
+iterprod$V1 <- NULL
 colnames(iterprod) <- c("nums", "CI", "CIII", "CIV", "ATP", "Leak", "PO2")
 
 diabetesPT <- dplyr::inner_join(iterprod, tails, by = "nums")
@@ -27,9 +32,9 @@ colnames(iterprod) <- c("nums", "CI", "CIII", "CIV", "ATP", "Leak", "PO2")
 
 diabetesTAL <- dplyr::inner_join(iterprod, tails, by = "nums")
 diabetesTAL$V1 <- diabetesTAL$t <- diabetesTAL$X <- NULL
-#setwd("..")
-#setwd("..)
-setwd("../liverScripts/modelScripts")
+setwd("..")
+setwd("..")
+setwd("./liverScripts/modelScripts")
 
 tails <- read.csv("../results/tailsDiabetes.csv")
 rownames(tails) <- NULL

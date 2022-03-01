@@ -1,3 +1,5 @@
+##
+
 if (!grepl("mitochondrialModel/modelScripts", getwd())) {
   setwd("./modelScripts")
 }
@@ -143,6 +145,7 @@ for (i in seq_along(uncoupling)) {
   newCases[[i]] <- data.table::fread(uncoupling[i])
 }
 
+## Figure 5.6a
 pdf("../dataVis/miceDiabetesPT.pdf", width = 17)
 par(mfrow = c(1, 3), cex.lab = 2, cex.axis = 2, mar = c(5.1, 5, 4.1, 2.1))
 atp <- function(x) tail(x$ATP_c, 1)

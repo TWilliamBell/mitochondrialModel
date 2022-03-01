@@ -56,7 +56,8 @@ print(finalConditions)
 energycharge = (finalConditions[pc.pcIS.iATP_c]+0.5*finalConditions[pc.pcIS.iADP_c])\
                /(finalConditions[pc.pcIS.iATP_c]+finalConditions[pc.pcIS.iADP_c]+\
                  finalConditions[pc.pcIS.iAMP_c])
+
 #print(energycharge)
 #print(finalConditions[pc.pcIS.iATP_c]/finalConditions[pc.pcIS.iADP_c])
 
-#print(finalConditions)
+print(finalConditions)

@@ -1,4 +1,5 @@
-## In order to run this file, you should first run fuelRich.py
+## In order to run this file, you should first run fuelRich.py, hypoxia.py, 
+## and mainDynamical.py
 
 if (!grepl("liverScripts/modelScripts", getwd())) {
   setwd("./liverScripts/modelScripts")

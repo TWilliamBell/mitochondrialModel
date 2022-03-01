@@ -1,5 +1,5 @@
-if (!grepl("mitochondrialModel/modelScripts", getwd())) {
-  setwd("./modelScripts")
+if (isFALSE(grepl("nephronScripts/modelScripts", getwd()))) {
+  setwd("./nephronScripts/modelScripts")
 }
 
 diabetesmTAL <- list()
