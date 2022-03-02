@@ -1,4 +1,4 @@
-Instructions for producing the figures and tables of results used in my thesis:
+For some scripts, there is flexibility about which directory you may start from, but all the below scripts will run if you start in the directory mitochondrialModel.  Instructions for producing the figures and tables of results used in my thesis:
 
 * Table 4.2 may be produced by the script calculateTest_tab_4_2.py (directions for the scripts you must run as prerequisites are given at the beginning).
 * Table 4.3 may be produced by the script table3gen_tab_4_3.py ("").
