@@ -29,3 +29,5 @@ Instructions for producing graphics & tables that include results used in my the
 * Figure 3.18 may be produced from hypoxiaFirstVis_figs.R ("").
 * Figure 3.19 may be produced from hypoxiaFirstVisTAL_figs.R ("").
 * Figure 3.20 may be produced from hypoxiaFirstVisTAL_figs.R ("").
+* Figure 5.6 (top) may be produced from diabetesPTAnalysis_fig_5_6_a.R ("").
+* Figure 5.7 (bottom) may be produced from diabetesmTALAnalysis_fig_5_6_b.R ("").
